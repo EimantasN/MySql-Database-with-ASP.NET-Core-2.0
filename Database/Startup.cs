@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Database.Models;
 
 namespace Database
 {
@@ -29,6 +30,9 @@ namespace Database
             //services.AddScoped<IDb, Service.Service>();
             services.AddMvc();
             services.Add(new ServiceDescriptor(typeof(Context), new Context(Configuration.GetConnectionString("DefaultConnection"))));
+
+            services.AddDbContext<DatabaseContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DatabaseContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,19 +1,7 @@
 ﻿@model CityList
 
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>View</title>
-</head>
-<body>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="CityAdd">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -32,7 +20,7 @@
 @foreach (var item in Model.citys) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -46,5 +34,3 @@
 }
     </tbody>
 </table>
-</body>
-</html>

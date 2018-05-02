@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 
 namespace Database
 {
@@ -17,10 +20,15 @@ namespace Database
         public DateTime Updated { get; set; }
     }
 
-    public class Citys
+    public class Citys :ICloneable
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public string Name { get; set; }
+
+        public object Clone()
+        {
+            return new Citys();
+        }
     }
 
     public class Comments
@@ -228,4 +236,22 @@ namespace Database
         public string Education { get; set; }
         public int fk_City_Users { get; set; }
     }
+
+
+    [Serializable]
+    public abstract class MyClone<t>
+    {
+        public t CloneMe()
+        {
+            MemoryStream ms = new MemoryStream();
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(ms, this);
+            ms.Position = 0;
+            object obj = bf.Deserialize(ms);
+            ms.Close();
+            return (t)obj;
+        }
+    }
+
+
 }

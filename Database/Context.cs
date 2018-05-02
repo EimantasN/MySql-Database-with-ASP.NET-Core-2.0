@@ -1,6 +1,13 @@
 ﻿using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Dynamic;
+using System.Linq;
+using System.Reflection;
 
 namespace Database
 {
@@ -18,13 +25,214 @@ namespace Database
             return new MySqlConnection(ConnectionString);
         }
 
-        public List<Citys> GetCitys()
+
+        #region Generic SQL method
+
+        //Sukuria nauja savybe dinaminian objektui
+        public static void AddProperty(ExpandoObject expando, string propertyName, object propertyValue)
+        {
+            var expandoDict = expando as IDictionary<string, object>;
+            if (expandoDict.ContainsKey(propertyName))
+                expandoDict[propertyName] = propertyValue;
+            else
+                expandoDict.Add(propertyName, propertyValue);
+        }
+
+        public List<object> GetList(object table)
+        {
+            List<object> List = new List<object>();
+            List<string> ColNames = new List<string>();
+
+            dynamic expando = new ExpandoObject();
+
+            object prop = table.GetType().GetProperties();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                MySqlCommand newcmd = new MySqlCommand("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table.GetType().Name + "'", conn);
+                using (var collums = newcmd.ExecuteReader())
+                {
+                    while (collums.Read())
+                    {
+                        ColNames.Add(collums.GetString(0));
+                    }
+                }
+
+                MySqlCommand command = new MySqlCommand("SELECT * FROM `" + table.GetType().Name + "`;", conn);
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+
+                        object data = new object();
+
+                        //Sukuriu dinaminio objekto savybes
+                        foreach (var a in ColNames)
+                        {
+                            AddProperty(expando, a, null);
+                        }
+
+                        //Uzsipildau statinio obekta sukurtais savybemis
+                        var props = table.GetType().GetProperties();
+                        var obj = Activator.CreateInstance(table.GetType());
+                        var values = (IDictionary<string, object>)expando;
+                        foreach (var propxx in props)
+                            propxx.SetValue(obj, values[propxx.Name]);
+
+
+                        //uzpildau objekta data
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            string x = reader[i].GetType().Name.ToString();
+                            string value = reader[i].ToString();
+                            if (reader[i].GetType().Name.Contains("String"))
+                            {
+                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, value);
+                            }
+                            else if (reader[i].GetType().Name.ToString().Contains("Int"))
+                            {
+                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Int32.Parse(value));
+                            }
+                            else
+                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Boolean.Parse(value));
+                        }
+                        List.Add(obj);
+                    }
+                    conn.Close();
+                }
+            }
+            return List;
+        }
+
+        public void Add(object data)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                List<string> properties = new List<string>();
+                List<string> values = new List<string>();
+
+                string Datatable = data.GetType().Name;
+                JObject json = JObject.FromObject(data);
+
+                foreach (JProperty property in json.Properties())
+                {
+                    if (property.Name != "Id")
+                    {
+                        properties.Add(property.Name);
+                        values.Add(property.Value.ToString());
+                    }
+                }
+
+                string prop = String.Join(",", properties);
+                string val = String.Join(",", values);
+
+                MySqlCommand command = conn.CreateCommand();
+                command.CommandText = "INSERT INTO `" + Datatable + "` (" + prop + ") VALUES('" + val + "')";
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
+        public void Edit(int id, object data)
+        {
+            if (data != null)
+            {
+                using (MySqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    List<string> properties = new List<string>();
+                    List<string> values = new List<string>();
+
+                    string Datatable = data.GetType().Name;
+                    JObject json = JObject.FromObject(data);
+
+                    foreach (JProperty property in json.Properties())
+                    {
+                        if (property.Name != "Id")
+                        {
+                            properties.Add(property.Name);
+                            values.Add(property.Value.ToString());
+                        }
+                    }
+                    List<string> editData = new List<string>();
+                    for (int i = 0; i < properties.Count; i++)
+                    {
+                        string newEdit = properties[i] + "=" + "'" + values[i] + "'";
+                        editData.Add(newEdit);
+                    }
+
+                    string update = String.Join(",", editData);
+
+                    MySqlCommand command = conn.CreateCommand();
+                    //command.CommandText = "INSERT INTO `" + Datatable + "` (" + prop + ") VALUES('" + val + "')";
+                    command.CommandText = "UPDATE `" + Datatable + "` SET " + update + " WHERE id = " + id + "";
+                    command.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
+        }
+
+        public object Details(int id, object data)
+        {
+            List<object> List = new List<object>();
+            List<string> ColNames = new List<string>();
+
+            object obj = data;
+            object prop = obj.GetType().GetProperties();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                MySqlCommand newcmd = new MySqlCommand("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + data.GetType().Name + "'", conn);
+                using (var collums = newcmd.ExecuteReader())
+                {
+                    while (collums.Read())
+                    {
+                        ColNames.Add(collums.GetString(0));
+                    }
+                }
+
+                MySqlCommand command = new MySqlCommand("SELECT * FROM `" + "" + "` WHERE id=" + id + ";", conn);
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        //object data = table;
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            string x = reader[i].GetType().Name.ToString();
+                            string value = reader[i].ToString();
+                            if (reader[i].GetType().Name.Contains("String"))
+                            {
+                                data.GetType().GetProperty(ColNames[i]).SetValue(data, value);
+                            }
+                            else if (reader[i].GetType().Name.ToString().Contains("Int"))
+                            {
+                                data.GetType().GetProperty(ColNames[i]).SetValue(data, Int32.Parse(value));
+                            }
+                            else
+                                data.GetType().GetProperty(ColNames[i]).SetValue(data, Boolean.Parse(value));
+                        }
+                        List.Add(data);
+                    }
+                    conn.Close();
+                }
+            }
+            return List;
+        }
+
+        #endregion
+
+        //TODO add properties
+        public List<Citys> GetItems()
         {
             List<Citys> cityList = new List<Citys>();
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                MySqlCommand command = new MySqlCommand("SELECT * FROM `citys`;", conn);
+                MySqlCommand command = new MySqlCommand("SELECT * FROM `items`;", conn);
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -32,7 +240,7 @@ namespace Database
                     {
                         cityList.Add(new Citys
                         {
-                            Id = (int)reader[1],
+                            id = (int)reader[1],
                             Name = reader[0].ToString()
                         });
                     }
