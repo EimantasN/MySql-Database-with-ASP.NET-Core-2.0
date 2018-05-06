@@ -1,0 +1,282 @@
+﻿@model Database.Users
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Users</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.lastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.lastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Income)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Income)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNr)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MobileNr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MobileNr)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsComany)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsComany)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Company_name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Company_name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Street_adress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Street_adress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Show_email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Show_email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Show_phone_nr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Show_phone_nr)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Show_mobile_nr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Show_mobile_nr)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Show_location)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Show_location)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Show_the_exact_address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Show_the_exact_address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Allow_send_me_messages)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Allow_send_me_messages)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.How_often_inform)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.How_often_inform)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Which_time_inform)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Which_time_inform)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Send_fovorite_update)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Send_fovorite_update)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Send_history_update)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Send_history_update)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Send_comments_update)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Send_comments_update)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Send_conversation_update)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Send_conversation_update)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Send_intrest_new_items_updates)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Send_intrest_new_items_updates)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Send_notification_about_new_item_in_your_city)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Send_notification_about_new_item_in_your_city)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Send_notification_about_intrest_in_your_item)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Send_notification_about_intrest_in_your_item)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Send_notification_about_comment_on_your_item)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Send_notification_about_comment_on_your_item)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Adverts_limit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Adverts_limit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Images_size_limit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Images_size_limit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Images_count_limit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Images_count_limit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Use_comment_limit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Use_comment_limit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User_message_limit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User_message_limit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User_favorite_items_limit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User_favorite_items_limit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HasCompletedPersonalInfo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HasCompletedPersonalInfo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Is_vip)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Is_vip)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Is_banned)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Is_banned)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Duration_of_ban)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Duration_of_ban)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Reason_of_ban)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Reason_of_ban)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Education)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Education)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.fk_City_Users)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.fk_City_Users)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
+</body>
+</html>

@@ -20,15 +20,10 @@ namespace Database
         public DateTime Updated { get; set; }
     }
 
-    public class Citys :ICloneable
+    public class Citys
     {
         public int id { get; set; }
         public string Name { get; set; }
-
-        public object Clone()
-        {
-            return new Citys();
-        }
     }
 
     public class Comments
@@ -143,7 +138,7 @@ namespace Database
 
     public class Messages
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public string Message { get; set; }
         public bool haveRead { get; set; }
         public bool badContent { get; set; }
@@ -184,16 +179,16 @@ namespace Database
 
     public class Users
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public string Name { get; set; }
-        public string lastName { get; set; }
+        public string LastName { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
         public bool Gender { get; set; }
         public int Income { get; set; }
-        public string PhoneNr { get; set; }
-        public string MobileNr { get; set; }
+        public string Phone_nr { get; set; }
+        public string Mobile_nr { get; set; }
         public string IsComany { get; set; }
         public string Company_name { get; set; }
         public int Age { get; set; }
@@ -236,22 +231,4 @@ namespace Database
         public string Education { get; set; }
         public int fk_City_Users { get; set; }
     }
-
-
-    [Serializable]
-    public abstract class MyClone<t>
-    {
-        public t CloneMe()
-        {
-            MemoryStream ms = new MemoryStream();
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(ms, this);
-            ms.Position = 0;
-            object obj = bf.Deserialize(ms);
-            ms.Close();
-            return (t)obj;
-        }
-    }
-
-
 }

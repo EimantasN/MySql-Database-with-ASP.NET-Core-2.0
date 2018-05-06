@@ -5,6 +5,7 @@ using Database.Models;
 using MySql.Data.MySqlClient;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace Database.Controllers
 {
@@ -26,9 +27,6 @@ namespace Database.Controllers
                 CityList.Add((Citys)City);
             }
 
-            //context.Add(new Citys { Name = "Kaunas"});
-
-            //context.Edit(1, new Citys { Name = "Update pavyko" });
             var model = new CityList
             {
                 citys = CityList
@@ -53,132 +51,132 @@ namespace Database.Controllers
             return RedirectToAction(nameof(CityList));
         }
 
-        //// GET: Citys/Details/5
-        //public IActionResult Details(int? id)
-        //{
-        //    Context context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Citys/Details/5
+        public IActionResult Details(int? id)
+        {
+            Context context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var citys = null;
-        //    if (citys == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var citys = context.Details(id, new Citys { });
+            if (citys == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(citys);
-        //}
+            return View(citys);
+        }
 
-        //// GET: Citys/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Citys/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: Citys/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Name")] Citys citys)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(citys);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(citys);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create([Bind("Name")] Citys citys)
+        {
+            if (ModelState.IsValid)
+            {
+                Context context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
+                context.Add(citys);
+                return RedirectToAction(nameof(CityList));
+            }
+            return View(citys);
+        }
 
-        //// GET: Citys/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Context context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
+            var citys = context.Details(id, new Citys { });
+            if (citys == null)
+            {
+                return NotFound();
+            }
+            return View(citys);
+        }
 
-        //    var citys = await _context.Citys.SingleOrDefaultAsync(m => m.Id == id);
-        //    if (citys == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(citys);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int? id, [Bind("Id,Name")] Citys citys)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Context context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
+                    context.Edit(id, citys);
+                }
+                catch
+                {
+                        return NotFound();
+                }
+                return RedirectToAction(nameof(CityList));
+            }
+            return View(citys);
+        }
 
-        //// POST: Citys/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Citys citys)
-        //{
-        //    if (id != citys.Id)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(citys);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!CitysExists(citys.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(citys);
-        //}
+        public IActionResult Delete(int? id)
+        {
+            Context context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //// GET: Citys/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var citys = context.Details(id, new Citys { });
+            if (citys == null)
+            {
+                return NotFound();
+            }
 
-        //    var citys = await _context.Citys
-        //        .SingleOrDefaultAsync(m => m.Id == id);
-        //    if (citys == null)
-        //    {
-        //        return NotFound();
-        //    }
+            return View(citys);
+        }
 
-        //    return View(citys);
-        //}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            Context context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
+            context.Delete(id, new Citys { });
+            return RedirectToAction(nameof(CityList));
+        }
 
-        //// POST: Citys/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var citys = await _context.Citys.SingleOrDefaultAsync(m => m.Id == id);
-        //    _context.Citys.Remove(citys);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //private bool CitysExists(int id)
-        //{
-        //    return _context.Citys.Any(e => e.Id == id);
-        //}
+        private bool CitysExists(int id)
+        {
+            Context context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
+            var OBJEKTAS = context.Details(id, new Citys { });
+            if (OBJEKTAS != null)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
         #endregion
 
+        #region user
+
+        public IActionResult UserList()
+        {
+            Context context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
+            List<Users> List = new List<Users>();
+            foreach (var User in context.GetList(new Users { }))
+            {
+                List.Add((Users)User);
+            }
+            return View(List.ToAsyncEnumerable());
+        }
+
+        #endregion
 
 
         public IActionResult Error()

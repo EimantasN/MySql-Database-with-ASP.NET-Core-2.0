@@ -50,22 +50,28 @@ namespace Database
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                MySqlCommand newcmd = new MySqlCommand("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table.GetType().Name + "'", conn);
-                using (var collums = newcmd.ExecuteReader())
-                {
-                    while (collums.Read())
-                    {
-                        ColNames.Add(collums.GetString(0));
-                    }
-                }
+                //MySqlCommand newcmd = new MySqlCommand("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table.GetType().Name + "'", conn);
+                //using (var collums = newcmd.ExecuteReader())
+                //{
+                //    while (collums.Read())
+                //    {
+                //        ColNames.Add(collums.GetString(0));
+                //    }
+                //}
 
                 MySqlCommand command = new MySqlCommand("SELECT * FROM `" + table.GetType().Name + "`;", conn);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-
                         object data = new object();
+
+                        var props = table.GetType().GetProperties();
+
+                        foreach (var a in props)
+                        {
+                            ColNames.Add(a.Name);
+                        }
 
                         //Sukuriu dinaminio objekto savybes
                         foreach (var a in ColNames)
@@ -74,7 +80,7 @@ namespace Database
                         }
 
                         //Uzsipildau statinio obekta sukurtais savybemis
-                        var props = table.GetType().GetProperties();
+                        //var props = table.GetType().GetProperties();
                         var obj = Activator.CreateInstance(table.GetType());
                         var values = (IDictionary<string, object>)expando;
                         foreach (var propxx in props)
@@ -82,20 +88,26 @@ namespace Database
 
 
                         //uzpildau objekta data
+                        int k = 0;
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
-                            string x = reader[i].GetType().Name.ToString();
-                            string value = reader[i].ToString();
-                            if (reader[i].GetType().Name.Contains("String"))
+                            try
                             {
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, value);
+                                string x = reader[i].GetType().Name.ToString();
+                                string value = reader[i].ToString();
+                                if (reader[i].GetType().Name.Contains("String"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, value);
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Int"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Int32.Parse(value));
+                                }
+                                else
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Boolean.Parse(value));
+                                k++;
                             }
-                            else if (reader[i].GetType().Name.ToString().Contains("Int"))
-                            {
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Int32.Parse(value));
-                            }
-                            else
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Boolean.Parse(value));
+                            catch { }
                         }
                         List.Add(obj);
                     }
@@ -118,7 +130,7 @@ namespace Database
 
                 foreach (JProperty property in json.Properties())
                 {
-                    if (property.Name != "Id")
+                    if (property.Name.ToLower() != "id")
                     {
                         properties.Add(property.Name);
                         values.Add(property.Value.ToString());
@@ -135,7 +147,7 @@ namespace Database
             }
         }
 
-        public void Edit(int id, object data)
+        public void Edit(int? id, object data)
         {
             if (data != null)
             {
@@ -150,7 +162,7 @@ namespace Database
 
                     foreach (JProperty property in json.Properties())
                     {
-                        if (property.Name != "Id")
+                        if (property.Name.ToLower() != "id")
                         {
                             properties.Add(property.Name);
                             values.Add(property.Value.ToString());
@@ -174,18 +186,20 @@ namespace Database
             }
         }
 
-        public object Details(int id, object data)
+        public object Details(int? id, object table)
         {
-            List<object> List = new List<object>();
             List<string> ColNames = new List<string>();
 
-            object obj = data;
-            object prop = obj.GetType().GetProperties();
+            dynamic expando = new ExpandoObject();
+
+            object prop = table.GetType().GetProperties();
 
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                MySqlCommand newcmd = new MySqlCommand("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + data.GetType().Name + "'", conn);
+
+                //Gauna informacija apie obejkto savybes
+                MySqlCommand newcmd = new MySqlCommand("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table.GetType().Name + "'", conn);
                 using (var collums = newcmd.ExecuteReader())
                 {
                     while (collums.Read())
@@ -194,35 +208,69 @@ namespace Database
                     }
                 }
 
-                MySqlCommand command = new MySqlCommand("SELECT * FROM `" + "" + "` WHERE id=" + id + ";", conn);
+                MySqlCommand command = new MySqlCommand("SELECT * FROM `" + table.GetType().Name + "` WHERE id="+id+";", conn);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        //object data = table;
+
+                        object data = new object();
+
+                        //Sukuriu dinaminio objekto savybes
+                        foreach (var a in ColNames)
+                        {
+                            AddProperty(expando, a, null);
+                        }
+
+                        //Uzsipildau statinio obekta sukurtais savybemis
+                        var props = table.GetType().GetProperties();
+                        var obj = Activator.CreateInstance(table.GetType());
+                        var values = (IDictionary<string, object>)expando;
+                        foreach (var propxx in props)
+                            propxx.SetValue(obj, values[propxx.Name]);
+
+                        //uzpildau objekta data
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
                             string x = reader[i].GetType().Name.ToString();
                             string value = reader[i].ToString();
                             if (reader[i].GetType().Name.Contains("String"))
                             {
-                                data.GetType().GetProperty(ColNames[i]).SetValue(data, value);
+                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, value);
                             }
                             else if (reader[i].GetType().Name.ToString().Contains("Int"))
                             {
-                                data.GetType().GetProperty(ColNames[i]).SetValue(data, Int32.Parse(value));
+                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Int32.Parse(value));
                             }
                             else
-                                data.GetType().GetProperty(ColNames[i]).SetValue(data, Boolean.Parse(value));
+                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Boolean.Parse(value));
                         }
-                        List.Add(data);
+                        conn.Close();
+                        return obj;
                     }
+                    
+                }
+            }
+            //jei nepavyko atlikti
+            return null;
+        }
+
+        public void Delete(int? id, object data)
+        {
+            if (data != null)
+            {
+                using (MySqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+
+                    MySqlCommand command = conn.CreateCommand();
+                    //command.CommandText = "INSERT INTO `" + Datatable + "` (" + prop + ") VALUES('" + val + "')";
+                    command.CommandText = "DELETE FROM `" + data.GetType().Name +"` WHERE id = " + id+"";
+                    command.ExecuteNonQuery();
                     conn.Close();
                 }
             }
-            return List;
         }
-
         #endregion
 
         //TODO add properties

@@ -9,4 +9,9 @@ namespace Database.Models
     {
         public List<Citys> citys { get; set; }
     }
+
+    public class UserList
+    {
+        public List<Users> users { get; set; }
+    }
 }
