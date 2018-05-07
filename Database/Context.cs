@@ -62,27 +62,27 @@ namespace Database
                 MySqlCommand command = new MySqlCommand("SELECT * FROM `" + table.GetType().Name + "`;", conn);
                 using (var reader = command.ExecuteReader())
                 {
+                    var props = table.GetType().GetProperties();
+
+                    foreach (var a in props)
+                    {
+                        ColNames.Add(a.Name);
+                    }
+
+                    //Sukuriu dinaminio objekto savybes
+                    foreach (var a in ColNames)
+                    {
+                        AddProperty(expando, a, null);
+                    }
+
+                    //Uzsipildau statinio obekta sukurtais savybemis
+                    //var props = table.GetType().GetProperties();
+                    var obj = Activator.CreateInstance(table.GetType());
+                    var values = (IDictionary<string, object>)expando;
+
                     while (reader.Read())
                     {
                         object data = new object();
-
-                        var props = table.GetType().GetProperties();
-
-                        foreach (var a in props)
-                        {
-                            ColNames.Add(a.Name);
-                        }
-
-                        //Sukuriu dinaminio objekto savybes
-                        foreach (var a in ColNames)
-                        {
-                            AddProperty(expando, a, null);
-                        }
-
-                        //Uzsipildau statinio obekta sukurtais savybemis
-                        //var props = table.GetType().GetProperties();
-                        var obj = Activator.CreateInstance(table.GetType());
-                        var values = (IDictionary<string, object>)expando;
                         foreach (var propxx in props)
                             propxx.SetValue(obj, values[propxx.Name]);
 

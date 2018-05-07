@@ -19,4 +19,10 @@
     <ProjectReference Include="..\ConnectDb\ConnectDb.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\User\Index.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
