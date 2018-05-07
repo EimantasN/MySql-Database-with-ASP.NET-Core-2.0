@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<Database.Users>
 
+
+
 <!DOCTYPE html>
 
 <html>
@@ -51,9 +53,6 @@
                     @Html.DisplayNameFor(model => model.Age)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Street_adress)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.Show_email)
                 </th>
                 <th>
@@ -100,6 +99,9 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Send_notification_about_comment_on_your_item)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Street_adress)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Adverts_limit)
@@ -183,9 +185,6 @@
                 @Html.DisplayFor(modelItem => item.Age)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Street_adress)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Show_email)
             </td>
             <td>
@@ -232,6 +231,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Send_notification_about_comment_on_your_item)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Street_adress)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Adverts_limit)

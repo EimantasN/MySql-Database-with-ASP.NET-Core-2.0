@@ -17,5 +17,11 @@ namespace Database.Models
         public DbSet<Database.Citys> Citys { get; set; }
 
         public DbSet<Database.Users> Users { get; set; }
+
+        public DbSet<Database.items> Items { get; set; }
+
+        public DbSet<Database.Prices> Prices { get; set; }
+
+        public DbSet<Database.Categorys> Categorys { get; set; }
     }
 }

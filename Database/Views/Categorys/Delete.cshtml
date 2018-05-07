@@ -1,4 +1,6 @@
-﻿@model Database.Citys
+﻿@model Database.Categorys
+
+
 
 <!DOCTYPE html>
 
@@ -11,7 +13,7 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Citys</h4>
+    <h4>Categorys</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -19,6 +21,18 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Updated)
         </dd>
     </dl>
     

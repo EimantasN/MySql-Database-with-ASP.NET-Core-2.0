@@ -1,15 +1,16 @@
 ﻿@model Database.Users
 
+
+
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Delete</title>
+    <title>Details</title>
 </head>
 <body>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Users</h4>
     <hr />
@@ -85,12 +86,6 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Age)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Street_adress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Street_adress)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Show_email)
@@ -189,6 +184,12 @@
             @Html.DisplayFor(model => model.Send_notification_about_comment_on_your_item)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.Street_adress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Street_adress)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Adverts_limit)
         </dt>
         <dd>
@@ -267,12 +268,10 @@
             @Html.DisplayFor(model => model.fk_City_Users)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="id" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
 </div>
 </body>
 </html>

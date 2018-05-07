@@ -1,5 +1,7 @@
 ﻿@model Database.Users
 
+
+
 <!DOCTYPE html>
 
 <html>
@@ -15,7 +17,6 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -77,11 +78,6 @@
                 <label asp-for="Age" class="control-label"></label>
                 <input asp-for="Age" class="form-control" />
                 <span asp-validation-for="Age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Street_adress" class="control-label"></label>
-                <input asp-for="Street_adress" class="form-control" />
-                <span asp-validation-for="Street_adress" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="checkbox">
@@ -192,6 +188,11 @@
                 </div>
             </div>
             <div class="form-group">
+                <label asp-for="Street_adress" class="control-label"></label>
+                <input asp-for="Street_adress" class="form-control" />
+                <span asp-validation-for="Street_adress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Adverts_limit" class="control-label"></label>
                 <input asp-for="Adverts_limit" class="form-control" />
                 <span asp-validation-for="Adverts_limit" class="text-danger"></span>
@@ -257,6 +258,7 @@
                 <input asp-for="Education" class="form-control" />
                 <span asp-validation-for="Education" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="id" />
             <div class="form-group">
                 <label asp-for="fk_City_Users" class="control-label"></label>
                 <input asp-for="fk_City_Users" class="form-control" />

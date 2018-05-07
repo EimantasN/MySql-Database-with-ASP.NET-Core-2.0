@@ -1,12 +1,45 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>View</title>
+    <title>Lentelių sarašas</title>
 </head>
 <body>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <tbody>
+
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="Users">Users</a>
+                </td>
+                <td>
+                    <a asp-action="Create" asp-controller="Users">Create</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="Items">Items</a>
+                </td>
+                <td>
+                    <a asp-action="Create" asp-controller="Items">Create</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="Categorys">Categorys</a>
+                </td>
+                <td>
+                    <a asp-action="Create" asp-controller="Categorys">Create</a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
 </body>
 </html>

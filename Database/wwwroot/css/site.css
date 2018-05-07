@@ -1,2 +1,10 @@
 ﻿body {
 }
+.padding
+{
+    padding-left: 30px;
+}
+
+.none {
+    display:none;
+}

@@ -13,17 +13,16 @@ namespace Database
 
     public class Categorys
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public string Name { get; set; }
-        public int Popularity { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
+        public string Created { get; set; }
+        public string Updated { get; set; }
     }
 
     public class Citys
     {
-        public int id { get; set; }
         public string Name { get; set; }
+        public int id { get; set; }
     }
 
     public class Comments
@@ -116,20 +115,21 @@ namespace Database
         public int fk_Item_Images { get; set; }
     }
 
-    public class Items
+    public class items
     {
-        public int Id { get; set; }
-        public Status Status { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
+        public string Created { get; set; }
+        public string Updated { get; set; }
         public string Description { get; set; }
-        public bool ReportLikes { get; set; }
+        public bool Report_likes { get; set; }
         public bool ReportAboutComment { get; set; }
-        public bool ReportAboutOffer { get; set; }
-        public int VisitedTimes { get; set; }
+        public bool Report_about_offer { get; set; }
+        public int Visited_times { get; set; }
         public int Received_offers { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
+        //Foreign Key Status
+        public int Status { get; set; }
+        public int Id { get; set; }
 
         //Keys
         public int fk_Category_Items { get; set; }
@@ -179,7 +179,6 @@ namespace Database
 
     public class Users
     {
-        public int id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
@@ -192,17 +191,14 @@ namespace Database
         public string IsComany { get; set; }
         public string Company_name { get; set; }
         public int Age { get; set; }
-        public string Street_adress { get; set; }
-
-        //Settings
         public bool Show_email { get; set; }
         public bool Show_phone_nr { get; set; }
         public bool Show_mobile_nr { get; set; }
         public bool Show_location { get; set; }
         public bool Show_the_exact_address { get; set; }
         public bool Allow_send_me_messages { get; set; }
-        public DateTime How_often_inform { get; set; }
-        public DateTime Which_time_inform { get; set; }
+        public string How_often_inform { get; set; }
+        public string Which_time_inform { get; set; }
         public bool Send_fovorite_update { get; set; }
         public bool Send_history_update { get; set; }
         public bool Send_comments_update { get; set; }
@@ -211,6 +207,8 @@ namespace Database
         public bool Send_notification_about_new_item_in_your_city { get; set; }
         public bool Send_notification_about_intrest_in_your_item { get; set; }
         public bool Send_notification_about_comment_on_your_item { get; set; }
+
+        public string Street_adress { get; set; }
 
         //Page Settings
         public int Adverts_limit { get; set; }
@@ -224,11 +222,12 @@ namespace Database
 
         //Banned
         public bool Is_banned { get; set; }
-        public DateTime Duration_of_ban { get; set; }
+        public string Duration_of_ban { get; set; }
         public string Reason_of_ban { get; set; }
 
         //Foreign keys
         public string Education { get; set; }
+        public int id { get; set; }
         public int fk_City_Users { get; set; }
     }
 }
