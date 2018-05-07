@@ -79,20 +79,33 @@ namespace Database
                         //uzpildau objekta data
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
-                            if (reader[i].GetType().Name.Contains("String"))
+                            try
                             {
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
+                                if (reader[i].GetType().Name.Contains("String"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Int"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Int32.Parse(reader[i].ToString()));
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Date"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Boolean.Parse(reader[i].ToString()));
+                                    }
+                                    catch { obj.GetType().GetProperty(ColNames[i]).SetValue(obj, false); }
+                                }
                             }
-                            else if (reader[i].GetType().Name.ToString().Contains("Int"))
+                            catch
                             {
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Int32.Parse(reader[i].ToString()));
+                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, "");
                             }
-                            else if (reader[i].GetType().Name.ToString().Contains("Date"))
-                            {
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
-                            }
-                            else
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Boolean.Parse(reader[i].ToString()));
                         }
                         List.Add(obj);
                     }
@@ -349,22 +362,33 @@ namespace Database
                         //uzpildau objekta data
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
-                            string x = reader[i].GetType().Name.ToString();
-                            string value = reader[i].ToString();
-                            if (reader[i].GetType().Name.Contains("String"))
+                            try
                             {
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, value);
+                                string x = reader[i].GetType().Name.ToString();
+                                string value = reader[i].ToString();
+                                if (reader[i].GetType().Name.Contains("String"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, value);
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Int"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Int32.Parse(value));
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Date"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
+                                }
+                                else
+                                    try
+                                    {
+                                        obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Boolean.Parse(reader[i].ToString()));
+                                    }
+                                    catch { obj.GetType().GetProperty(ColNames[i]).SetValue(obj, false); }
                             }
-                            else if (reader[i].GetType().Name.ToString().Contains("Int"))
+                            catch
                             {
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Int32.Parse(value));
+                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, "");
                             }
-                            else if (reader[i].GetType().Name.ToString().Contains("Date"))
-                            {
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
-                            }
-                            else
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Boolean.Parse(value));
                         }
                         conn.Close();
                         return obj;

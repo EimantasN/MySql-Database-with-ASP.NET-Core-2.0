@@ -6,10 +6,18 @@
     <title>Lentelių sarašas</title>
 </head>
 <body>
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
     <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Table
+                </th>
+                <th>
+                    Create new entry
+                </th>
+                <th></th>
+            </tr>
+        </thead>
         <tbody>
 
             <tr>
@@ -36,6 +44,15 @@
                 </td>
                 <td>
                     <a asp-action="Create" asp-controller="Categorys">Create</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a asp-action="Index" asp-controller="Citys">Citys</a>
+                </td>
+                <td>
+                    <a asp-action="Create" asp-controller="Citys">Create</a>
                 </td>
             </tr>
 

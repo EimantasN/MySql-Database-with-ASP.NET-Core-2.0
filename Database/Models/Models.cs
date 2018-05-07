@@ -188,7 +188,7 @@ namespace Database
         public int Income { get; set; }
         public string Phone_nr { get; set; }
         public string Mobile_nr { get; set; }
-        public string IsComany { get; set; }
+        public bool IsComany { get; set; }
         public string Company_name { get; set; }
         public int Age { get; set; }
         public bool Show_email { get; set; }
@@ -197,8 +197,8 @@ namespace Database
         public bool Show_location { get; set; }
         public bool Show_the_exact_address { get; set; }
         public bool Allow_send_me_messages { get; set; }
-        public string How_often_inform { get; set; }
-        public string Which_time_inform { get; set; }
+        public int How_often_inform { get; set; }
+        public int Which_time_inform { get; set; }
         public bool Send_fovorite_update { get; set; }
         public bool Send_history_update { get; set; }
         public bool Send_comments_update { get; set; }

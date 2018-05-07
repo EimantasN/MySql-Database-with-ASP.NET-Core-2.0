@@ -22,42 +22,22 @@
 
     <ul class="nav nav-tabs" style="padding-bottom:30px">
         <li class="nav-item">
-            <a class="nav-link active" href="#">Pagrindinis puslapis</a>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Skelbimai</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Įdėti</a>
-                <a class="dropdown-item" href="#">Ištrinti</a>
-                <a class="dropdown-item" href="#">Atnaujinti</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Skelbimai</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Įdėti</a>
-                <a class="dropdown-item" href="#">Ištrinti</a>
-                <a class="dropdown-item" href="#">Atnaujinti</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Kategorijos</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Įdėti</a>
-                <a class="dropdown-item" href="#">Ištrinti</a>
-                <a class="dropdown-item" href="#">Atnaujinti</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Skelbimai</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Įdėti</a>
-                <a class="dropdown-item" href="#">Ištrinti</a>
-                <a class="dropdown-item" href="#">Atnaujinti</a>
-            </div>
+            <a class="nav-link active" asp-action="Index" asp-controller="Database">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link disabled" href="#">Kuriama</a>
+            <a class="nav-link active" asp-action="Index" asp-controller="Users">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" asp-action="Index" asp-controller="items">Items</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" asp-action="Index" asp-controller="Categorys">Categorys</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" asp-action="Index" asp-controller="Citys">Citys</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Under Creation</a>
         </li>
     </ul>
 

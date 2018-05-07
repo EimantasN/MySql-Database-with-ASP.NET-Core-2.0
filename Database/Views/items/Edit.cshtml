@@ -26,14 +26,14 @@
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <label asp-for="Created" class="control-label"></label>
                 <input asp-for="Created" class="form-control" />
                 <span asp-validation-for="Created" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <label asp-for="Updated" class="control-label"></label>
-                <input asp-for="Updated" class="form-control" />
+                <input asp-for="Updated" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")"/>
                 <span asp-validation-for="Updated" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -62,19 +62,19 @@
                     </label>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <label asp-for="Visited_times" class="control-label"></label>
                 <input asp-for="Visited_times" class="form-control" />
                 <span asp-validation-for="Visited_times" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <label asp-for="Received_offers" class="control-label"></label>
                 <input asp-for="Received_offers" class="form-control" />
                 <span asp-validation-for="Received_offers" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
+                <input asp-for="Status" class="form-control" value="2" />
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
@@ -83,7 +83,7 @@
                 <input asp-for="fk_Category_Items" class="form-control" />
                 <span asp-validation-for="fk_Category_Items" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <label asp-for="fk_User_Items" class="control-label"></label>
                 <input asp-for="fk_User_Items" class="form-control" />
                 <span asp-validation-for="fk_User_Items" class="text-danger"></span>

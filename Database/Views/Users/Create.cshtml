@@ -19,33 +19,33 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" required />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+                <input asp-for="LastName" class="form-control" required />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
+                <input asp-for="UserName" class="form-control" required />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" type="password" class="form-control" required />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="Gender" /> @Html.DisplayNameFor(model => model.Gender)
+                        <input asp-for="Gender" /> Female?
                     </label>
                 </div>
             </div>
@@ -65,9 +65,11 @@
                 <span asp-validation-for="Mobile_nr" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IsComany" class="control-label"></label>
-                <input asp-for="IsComany" class="form-control" />
-                <span asp-validation-for="IsComany" class="text-danger"></span>
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsComany" /> IsCompany
+                    </label>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Company_name" class="control-label"></label>
@@ -76,7 +78,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control" />
+                <input asp-for="Age" class="form-control" required />
                 <span asp-validation-for="Age" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -192,63 +194,63 @@
                 <input asp-for="Street_adress" class="form-control" />
                 <span asp-validation-for="Street_adress" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group  none">
                 <label asp-for="Adverts_limit" class="control-label"></label>
-                <input asp-for="Adverts_limit" class="form-control" />
+                <input asp-for="Adverts_limit" class="form-control" value="100" />
                 <span asp-validation-for="Adverts_limit" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group  none">
                 <label asp-for="Images_size_limit" class="control-label"></label>
-                <input asp-for="Images_size_limit" class="form-control" />
+                <input asp-for="Images_size_limit" class="form-control" value="100" />
                 <span asp-validation-for="Images_size_limit" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group  none">
                 <label asp-for="Images_count_limit" class="control-label"></label>
-                <input asp-for="Images_count_limit" class="form-control" />
+                <input asp-for="Images_count_limit" class="form-control" value="100" />
                 <span asp-validation-for="Images_count_limit" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group  none">
                 <label asp-for="Use_comment_limit" class="control-label"></label>
-                <input asp-for="Use_comment_limit" class="form-control" />
+                <input asp-for="Use_comment_limit" class="form-control" value="100" />
                 <span asp-validation-for="Use_comment_limit" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <label asp-for="User_message_limit" class="control-label"></label>
-                <input asp-for="User_message_limit" class="form-control" />
+                <input asp-for="User_message_limit" class="form-control" value="100" />
                 <span asp-validation-for="User_message_limit" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <label asp-for="User_favorite_items_limit" class="control-label"></label>
-                <input asp-for="User_favorite_items_limit" class="form-control" />
+                <input asp-for="User_favorite_items_limit" class="form-control" value="100" />
                 <span asp-validation-for="User_favorite_items_limit" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="HasCompletedPersonalInfo" /> @Html.DisplayNameFor(model => model.HasCompletedPersonalInfo)
+                        <input asp-for="HasCompletedPersonalInfo" value="0" /> @Html.DisplayNameFor(model => model.HasCompletedPersonalInfo)
                     </label>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="Is_vip" /> @Html.DisplayNameFor(model => model.Is_vip)
+                        <input asp-for="Is_vip" value="0" /> @Html.DisplayNameFor(model => model.Is_vip)
                     </label>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="Is_banned" /> @Html.DisplayNameFor(model => model.Is_banned)
+                        <input asp-for="Is_banned" value="0" /> @Html.DisplayNameFor(model => model.Is_banned)
                     </label>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <label asp-for="Duration_of_ban" class="control-label"></label>
                 <input asp-for="Duration_of_ban" class="form-control" />
                 <span asp-validation-for="Duration_of_ban" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group none">
                 <label asp-for="Reason_of_ban" class="control-label"></label>
                 <input asp-for="Reason_of_ban" class="form-control" />
                 <span asp-validation-for="Reason_of_ban" class="text-danger"></span>
@@ -259,7 +261,7 @@
                 <span asp-validation-for="Education" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="fk_City_Users" class="control-label"></label>
+                <label asp-for="fk_City_Users" class="control-label">City</label>
                 <input asp-for="fk_City_Users" class="form-control" />
                 <span asp-validation-for="fk_City_Users" class="text-danger"></span>
             </div>
