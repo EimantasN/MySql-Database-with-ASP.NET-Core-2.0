@@ -1,280 +1,381 @@
-﻿@model Database.Users
-
-
-
+﻿@inject Database.Context service
+@model Database.Users
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
+    <title></title>
 </head>
 <body>
+    <h4>Users</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" required />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" required />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" type="password" class="form-control" required />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Gender" /> @Html.DisplayNameFor(model => model.Gender)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Income" class="control-label"></label>
+                    <input asp-for="Income" class="form-control" type="number" />
+                    <span asp-validation-for="Income" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone_nr" class="control-label"></label>
+                    <input asp-for="Phone_nr" class="form-control" type="number" />
+                    <span asp-validation-for="Phone_nr" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mobile_nr" class="control-label"></label>
+                    <input asp-for="Mobile_nr" class="form-control" type="number" />
+                    <span asp-validation-for="Mobile_nr" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="IsComany" /> @Html.DisplayNameFor(model => model.IsComany)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Company_name" class="control-label"></label>
+                    <input asp-for="Company_name" class="form-control" />
+                    <span asp-validation-for="Company_name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control" required type="number" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Show_email" /> @Html.DisplayNameFor(model => model.Show_email)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Show_phone_nr" /> @Html.DisplayNameFor(model => model.Show_phone_nr)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Show_mobile_nr" /> @Html.DisplayNameFor(model => model.Show_mobile_nr)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Show_location" /> @Html.DisplayNameFor(model => model.Show_location)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Show_the_exact_address" /> @Html.DisplayNameFor(model => model.Show_the_exact_address)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Allow_send_me_messages" /> @Html.DisplayNameFor(model => model.Allow_send_me_messages)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="How_often_inform" class="control-label"></label>
+                    <input asp-for="How_often_inform" class="form-control" type="number" />
+                    <span asp-validation-for="How_often_inform" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Which_time_inform" class="control-label"></label>
+                    <input asp-for="Which_time_inform" class="form-control" type="number" />
+                    <span asp-validation-for="Which_time_inform" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Send_fovorite_update" /> @Html.DisplayNameFor(model => model.Send_fovorite_update)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Send_history_update" /> @Html.DisplayNameFor(model => model.Send_history_update)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Send_comments_update" /> @Html.DisplayNameFor(model => model.Send_comments_update)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Send_conversation_update" /> @Html.DisplayNameFor(model => model.Send_conversation_update)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Send_intrest_new_items_updates" /> @Html.DisplayNameFor(model => model.Send_intrest_new_items_updates)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Send_notification_about_new_item_in_your_city" /> @Html.DisplayNameFor(model => model.Send_notification_about_new_item_in_your_city)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Send_notification_about_intrest_in_your_item" /> @Html.DisplayNameFor(model => model.Send_notification_about_intrest_in_your_item)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Send_notification_about_comment_on_your_item" /> @Html.DisplayNameFor(model => model.Send_notification_about_comment_on_your_item)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Street_adress" class="control-label"></label>
+                    <input asp-for="Street_adress" class="form-control" />
+                    <span asp-validation-for="Street_adress" class="text-danger"></span>
+                </div>
+                <div class="form-group  none">
+                    <label asp-for="Adverts_limit" class="control-label"></label>
+                    <input asp-for="Adverts_limit" class="form-control" value="100" />
+                    <span asp-validation-for="Adverts_limit" class="text-danger"></span>
+                </div>
+                <div class="form-group  none">
+                    <label asp-for="Images_size_limit" class="control-label"></label>
+                    <input asp-for="Images_size_limit" class="form-control" value="100" />
+                    <span asp-validation-for="Images_size_limit" class="text-danger"></span>
+                </div>
+                <div class="form-group  none">
+                    <label asp-for="Images_count_limit" class="control-label"></label>
+                    <input asp-for="Images_count_limit" class="form-control" value="100" />
+                    <span asp-validation-for="Images_count_limit" class="text-danger"></span>
+                </div>
+                <div class="form-group  none">
+                    <label asp-for="Use_comment_limit" class="control-label"></label>
+                    <input asp-for="Use_comment_limit" class="form-control" value="100" />
+                    <span asp-validation-for="Use_comment_limit" class="text-danger"></span>
+                </div>
+                <div class="form-group none">
+                    <label asp-for="User_message_limit" class="control-label"></label>
+                    <input asp-for="User_message_limit" class="form-control" value="100" />
+                    <span asp-validation-for="User_message_limit" class="text-danger"></span>
+                </div>
+                <div class="form-group none">
+                    <label asp-for="User_favorite_items_limit" class="control-label"></label>
+                    <input asp-for="User_favorite_items_limit" class="form-control" value="100" />
+                    <span asp-validation-for="User_favorite_items_limit" class="text-danger"></span>
+                </div>
+                <div class="form-group none">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="HasCompletedPersonalInfo" value="0" /> @Html.DisplayNameFor(model => model.HasCompletedPersonalInfo)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group none">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Is_vip" value="0" /> @Html.DisplayNameFor(model => model.Is_vip)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group none">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Is_banned" value="0" /> @Html.DisplayNameFor(model => model.Is_banned)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group none">
+                    <label asp-for="Duration_of_ban" class="control-label"></label>
+                    <input asp-for="Duration_of_ban" class="form-control" />
+                    <span asp-validation-for="Duration_of_ban" class="text-danger"></span>
+                </div>
+                <div class="form-group none">
+                    <label asp-for="Reason_of_ban" class="control-label"></label>
+                    <input asp-for="Reason_of_ban" class="form-control" />
+                    <span asp-validation-for="Reason_of_ban" class="text-danger"></span>
+                </div>
 
-<h4>Users</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" required />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" required />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" required />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" required />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" required />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Gender" /> Female?
-                    </label>
+                <div class="form-group">
+                    <label asp-for="Education"></label>
+                    <select asp-for="Education" class="form-control">
+                        @{
+                            foreach (Education data in service.GetEducations())
+                            {
+                                <option asp-for="Education" value="@data.id">@data.name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="Education" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Income" class="control-label"></label>
-                <input asp-for="Income" class="form-control" />
-                <span asp-validation-for="Income" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone_nr" class="control-label"></label>
-                <input asp-for="Phone_nr" class="form-control" />
-                <span asp-validation-for="Phone_nr" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Mobile_nr" class="control-label"></label>
-                <input asp-for="Mobile_nr" class="form-control" />
-                <span asp-validation-for="Mobile_nr" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="IsComany" /> IsCompany
-                    </label>
+                <div class="form-group">
+                    <label asp-for="fk_City_Users"></label>
+                    <select asp-for="fk_City_Users" class="form-control">
+                        @{
+                            foreach (Citys data in service.GetCitys())
+                            {
+                                <option asp-for="fk_City_Users" value="@data.id">@data.Name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="fk_City_Users" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Company_name" class="control-label"></label>
-                <input asp-for="Company_name" class="form-control" />
-                <span asp-validation-for="Company_name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control" required />
-                <span asp-validation-for="Age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Show_email" /> @Html.DisplayNameFor(model => model.Show_email)
-                    </label>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Show_phone_nr" /> @Html.DisplayNameFor(model => model.Show_phone_nr)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Show_mobile_nr" /> @Html.DisplayNameFor(model => model.Show_mobile_nr)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Show_location" /> @Html.DisplayNameFor(model => model.Show_location)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Show_the_exact_address" /> @Html.DisplayNameFor(model => model.Show_the_exact_address)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Allow_send_me_messages" /> @Html.DisplayNameFor(model => model.Allow_send_me_messages)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="How_often_inform" class="control-label"></label>
-                <input asp-for="How_often_inform" class="form-control" />
-                <span asp-validation-for="How_often_inform" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Which_time_inform" class="control-label"></label>
-                <input asp-for="Which_time_inform" class="form-control" />
-                <span asp-validation-for="Which_time_inform" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Send_fovorite_update" /> @Html.DisplayNameFor(model => model.Send_fovorite_update)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Send_history_update" /> @Html.DisplayNameFor(model => model.Send_history_update)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Send_comments_update" /> @Html.DisplayNameFor(model => model.Send_comments_update)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Send_conversation_update" /> @Html.DisplayNameFor(model => model.Send_conversation_update)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Send_intrest_new_items_updates" /> @Html.DisplayNameFor(model => model.Send_intrest_new_items_updates)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Send_notification_about_new_item_in_your_city" /> @Html.DisplayNameFor(model => model.Send_notification_about_new_item_in_your_city)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Send_notification_about_intrest_in_your_item" /> @Html.DisplayNameFor(model => model.Send_notification_about_intrest_in_your_item)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Send_notification_about_comment_on_your_item" /> @Html.DisplayNameFor(model => model.Send_notification_about_comment_on_your_item)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Street_adress" class="control-label"></label>
-                <input asp-for="Street_adress" class="form-control" />
-                <span asp-validation-for="Street_adress" class="text-danger"></span>
-            </div>
-            <div class="form-group  none">
-                <label asp-for="Adverts_limit" class="control-label"></label>
-                <input asp-for="Adverts_limit" class="form-control" value="100" />
-                <span asp-validation-for="Adverts_limit" class="text-danger"></span>
-            </div>
-            <div class="form-group  none">
-                <label asp-for="Images_size_limit" class="control-label"></label>
-                <input asp-for="Images_size_limit" class="form-control" value="100" />
-                <span asp-validation-for="Images_size_limit" class="text-danger"></span>
-            </div>
-            <div class="form-group  none">
-                <label asp-for="Images_count_limit" class="control-label"></label>
-                <input asp-for="Images_count_limit" class="form-control" value="100" />
-                <span asp-validation-for="Images_count_limit" class="text-danger"></span>
-            </div>
-            <div class="form-group  none">
-                <label asp-for="Use_comment_limit" class="control-label"></label>
-                <input asp-for="Use_comment_limit" class="form-control" value="100" />
-                <span asp-validation-for="Use_comment_limit" class="text-danger"></span>
-            </div>
-            <div class="form-group none">
-                <label asp-for="User_message_limit" class="control-label"></label>
-                <input asp-for="User_message_limit" class="form-control" value="100" />
-                <span asp-validation-for="User_message_limit" class="text-danger"></span>
-            </div>
-            <div class="form-group none">
-                <label asp-for="User_favorite_items_limit" class="control-label"></label>
-                <input asp-for="User_favorite_items_limit" class="form-control" value="100" />
-                <span asp-validation-for="User_favorite_items_limit" class="text-danger"></span>
-            </div>
-            <div class="form-group none">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="HasCompletedPersonalInfo" value="0" /> @Html.DisplayNameFor(model => model.HasCompletedPersonalInfo)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group none">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Is_vip" value="0" /> @Html.DisplayNameFor(model => model.Is_vip)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group none">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Is_banned" value="0" /> @Html.DisplayNameFor(model => model.Is_banned)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group none">
-                <label asp-for="Duration_of_ban" class="control-label"></label>
-                <input asp-for="Duration_of_ban" class="form-control" />
-                <span asp-validation-for="Duration_of_ban" class="text-danger"></span>
-            </div>
-            <div class="form-group none">
-                <label asp-for="Reason_of_ban" class="control-label"></label>
-                <input asp-for="Reason_of_ban" class="form-control" />
-                <span asp-validation-for="Reason_of_ban" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Education" class="control-label"></label>
-                <input asp-for="Education" class="form-control" />
-                <span asp-validation-for="Education" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="fk_City_Users" class="control-label">City</label>
-                <input asp-for="fk_City_Users" class="form-control" />
-                <span asp-validation-for="fk_City_Users" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <script src="~/js/jquery-3.3.1.js"></script>
+    @*<script>
+            function autocomplete(inp, arr) {
+                var currentFocus;
+                inp.addEventListener("input", function (e) {
+                    var a, b, i, val = this.value;
+                    closeAllLists();
+                    if (!val) { return false; }
+                    currentFocus = -1;
+                    a = document.createElement("DIV");
+                    a.setAttribute("id", this.id + "autocomplete-list");
+                    a.setAttribute("class", "autocomplete-items");
+                    this.parentNode.appendChild(a);
+                    @{ int pointer = 0;}
+                    { var index = ""; }
+                    for (i = 0; i < arr.length; i++) {
+                        @{
+                            pointer = pointer + 1;
+                         }
+
+                        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                            b = document.createElement("DIV");
+                            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                            b.innerHTML += arr[i].substr(val.length);
+                            var name = arr[i];
+                            @{
+                                int id = Citys.First(x => x.Name == Citys.Select(y => y.Name).ToArray()[pointer]).id;
+                            }
+                            b.innerHTML += "<input type='hidden' value='" +@id + "'>";
+                            b.addEventListener("click", function (e) {
+                                inp.value = this.getElementsByTagName("input")[0].value;
+                                closeAllLists();
+                            });
+                            a.appendChild(b);
+                        }
+                    }
+                });
+                inp.addEventListener("keydown", function (e) {
+                    var x = document.getElementById(this.id + "autocomplete-list");
+                    if (x) x = x.getElementsByTagName("div");
+                    if (e.keyCode == 40) {
+                        currentFocus++;
+                        addActive(x);
+                    } else if (e.keyCode == 38) {
+                        currentFocus--;
+                        addActive(x);
+                    } else if (e.keyCode == 13) {
+                        e.preventDefault();
+                        if (currentFocus > -1) {
+                            if (x) x[currentFocus].click();
+                        }
+                    }
+                });
+                function addActive(x) {
+                    if (!x) return false;
+                    removeActive(x);
+                    if (currentFocus >= x.length) currentFocus = 0;
+                    if (currentFocus < 0) currentFocus = (x.length - 1);
+                    x[currentFocus].classList.add("autocomplete-active");
+                }
+                function removeActive(x) {
+                    for (var i = 0; i < x.length; i++) {
+                        x[i].classList.remove("autocomplete-active");
+                    }
+                }
+                function closeAllLists(elmnt) {
+                    var x = document.getElementsByClassName("autocomplete-items");
+                    for (var i = 0; i < x.length; i++) {
+                        if (elmnt != x[i] && elmnt != inp) {
+                            x[i].parentNode.removeChild(x[i]);
+                        }
+                    }
+                }
+                document.addEventListener("click", function (e) {
+                    closeAllLists(e.target);
+                });
+            }
+            @{
+                string Miestai = "\"";
+                Miestai += string.Join("\",\"", Citys.Select(x => x.Name));
+                Miestai += "\"";
+
+            }
+            /*An array containing all the country names in the world:*/
+            var countries = [@Html.Raw(Miestai)];
+
+            /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+            autocomplete(document.getElementById("InputCitys"), countries);
+
+        </script>*@
 
 </body>
 </html>

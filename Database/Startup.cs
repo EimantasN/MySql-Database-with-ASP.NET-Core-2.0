@@ -43,13 +43,23 @@ namespace Database
                 o.AreaViewLocationFormats.Add("/Areas/Shared/Views/{0}" + RazorViewEngine.ViewExtension);
             });
 
+
+
+
             services.AddMvc();
+
+            services.AddTransient<Context>();
+
+            services.AddScoped<Context>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.Add(new ServiceDescriptor(typeof(Context), new Context(Configuration.GetConnectionString("DefaultConnection"))));
 
             services.AddDbContext<DatabaseContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DatabaseContext")));
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

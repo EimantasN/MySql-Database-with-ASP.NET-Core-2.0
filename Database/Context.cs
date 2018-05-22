@@ -81,6 +81,7 @@ namespace Database
                         {
                             try
                             {
+                                string value = reader[i].GetType().Name;
                                 if (reader[i].GetType().Name.Contains("String"))
                                 {
                                     obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
@@ -93,6 +94,10 @@ namespace Database
                                 {
                                     obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
                                 }
+                                else if (reader[i].GetType().Name.ToString().Contains("Decimal"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Double.Parse(reader[i].ToString()));
+                                }
                                 else
                                 {
                                     try
@@ -104,7 +109,14 @@ namespace Database
                             }
                             catch
                             {
-                                obj.GetType().GetProperty(ColNames[i]).SetValue(obj, "");
+                                try
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, "");
+                                }
+                                catch
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, 0);
+                                }
                             }
                         }
                         List.Add(obj);
@@ -378,6 +390,10 @@ namespace Database
                                 {
                                     obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
                                 }
+                                else if (reader[i].GetType().Name.ToString().ToLower().Contains("Double"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Double.Parse(value));
+                                }
                                 else
                                     try
                                     {
@@ -418,27 +434,97 @@ namespace Database
         #endregion
 
         //TODO add properties
-        public List<Citys> GetItems()
-        {
-            List<Citys> cityList = new List<Citys>();
-            using (MySqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                MySqlCommand command = new MySqlCommand("SELECT * FROM `items`;", conn);
+        //public List<Citys> GetItems()
+        //{
+        //    List<Citys> cityList = new List<Citys>();
+        //    using (MySqlConnection conn = GetConnection())
+        //    {
+        //        conn.Open();
+        //        MySqlCommand command = new MySqlCommand("SELECT * FROM `items`;", conn);
 
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        cityList.Add(new Citys
-                        {
-                            id = (int)reader[1],
-                            Name = reader[0].ToString()
-                        });
-                    }
-                }
+        //        using (var reader = command.ExecuteReader())
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                cityList.Add(new Citys
+        //                {
+        //                    id = (int)reader[1],
+        //                    Name = reader[0].ToString()
+        //                });
+        //            }
+        //        }
+        //    }
+        //    return cityList;
+        //}
+
+        public List<Citys> GetCitys()
+        {
+            List<Citys> List = new List<Citys>();
+            foreach (var data in GetList(new Citys { }))
+            {
+                List.Add((Citys)data);
             }
-            return cityList;
+            return List;
         }
+
+        public List<Education> GetEducations()
+        {
+            List<Education> List = new List<Education>();
+            foreach (var data in GetList(new Education { }))
+            {
+                List.Add((Education)data);
+            }
+            return List;
+        }
+        public List<Categorys> GetCategorys()
+        {
+            List<Categorys> List = new List<Categorys>();
+            foreach (var data in GetList(new Categorys { }))
+            {
+                List.Add((Categorys)data);
+            }
+            return List;
+        }
+
+        public List<Users> GetUsers()
+        {
+            List<Users> List = new List<Users>();
+            foreach (var data in GetList(new Users { }))
+            {
+                List.Add((Users)data);
+            }
+            return List;
+        }
+
+        public List<Status> GetStatuses()
+        {
+            List<Status> List = new List<Status>();
+            foreach (var data in GetList(new Status { }))
+            {
+                List.Add((Status)data);
+            }
+            return List;
+        }
+
+        public List<Prices> GetPrices()
+        {
+            List<Prices> List = new List<Prices>();
+            foreach (var data in GetList(new Prices { }))
+            {
+                List.Add((Prices)data);
+            }
+            return List;
+        }
+
+        public List<items> GetItems()
+        {
+            List<items> List = new List<items>();
+            foreach (var data in GetList(new items { }))
+            {
+                List.Add((items)data);
+            }
+            return List;
+        }
+
     }
 }

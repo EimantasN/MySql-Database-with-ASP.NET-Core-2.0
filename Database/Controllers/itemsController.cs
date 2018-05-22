@@ -52,7 +52,7 @@ namespace Database.Controllers
         // POST: Items/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Name,Quantity,Description,ReportLikes,ReportAboutComment,ReportAboutOffer,VisitedTimes,Received_offers,Created,Updated,fk_Category_Items,fk_User_Items")] items items)
+        public IActionResult Create([Bind("Id,Name,Quantity,Description,ReportLikes,ReportAboutComment,ReportAboutOffer,VisitedTimes,Received_offers,Created,Updated,fk_Category_Items,fk_User_Items, Status")] items items)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace Database.Controllers
         // POST: Items/Edit/id
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name,Quantity,Description,ReportLikes,ReportAboutComment,ReportAboutOffer,VisitedTimes,Received_offers,Created,Updated,fk_Category_Items,fk_User_Items")] items items)
+        public IActionResult Edit(int id, [Bind("Id,Name,Quantity,Description,ReportLikes,ReportAboutComment,ReportAboutOffer,VisitedTimes,Received_offers,Created,Updated,fk_Category_Items,fk_User_Items, Status")] items items)
         {
             if (id != items.Id)
             {
@@ -95,7 +95,7 @@ namespace Database.Controllers
                 try
                 {
                     Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
-                    _context.Edit(id, new items { });
+                    _context.Edit(id, items);
                 }
                 catch
                 {
