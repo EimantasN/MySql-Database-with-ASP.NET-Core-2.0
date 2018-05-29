@@ -1,4 +1,5 @@
 ﻿@model Database.Categorys
+@inject Database.Context service
 
 <!DOCTYPE html>
 
@@ -9,38 +10,445 @@
 </head>
 <body>
 
-<h4>Categorys</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control"/>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group none">
-                <label asp-for="Created" class="control-label"></label>
-                <input asp-for="Created" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")"/>
-                <span asp-validation-for="Created" class="text-danger"></span>
-            </div>
-            <div class="form-group none">
-                <label asp-for="Updated" class="control-label"></label>
-                <input asp-for="Updated" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")"/>
-                <span asp-validation-for="Updated" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
+    <h4>Categorys</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="id" />
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group none">
+                    <label asp-for="Created" class="control-label"></label>
+                    <input asp-for="Created" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" />
+                    <span asp-validation-for="Created" class="text-danger"></span>
+                </div>
+                <div class="form-group none">
+                    <label asp-for="Updated" class="control-label"></label>
+                    <input asp-for="Updated" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" />
+                    <span asp-validation-for="Updated" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        <div class="col-md-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Pavavinimas
+                        </th>
+                        <th>
+                            Kiekis
+                        </th>
+                        <th>
+                            Sukurta
+                        </th>
+                        <th>
+                            Atnaujinta
+                        </th>
+                        <th>
+                            Aprašymas
+                        </th>
+                        <th>
+                            Pranešti apie susidomėjimus
+                        </th>
+                        <th>
+                            Pranešti apie komentarus
+                        </th>
+                        <th>
+                            Pranešti apie pasiūlymus
+                        </th>
+                        <th>
+                            Kiek kartų apsilankyta
+                        </th>
+                        <th>
+                            Kiek pasiūlymų sulaukė skelbimas
+                        </th>
+                        <th>
+                            Būsena
+                        </th>
+                        <th>
+                            Identifikacinis numeris
+                        </th>
+                        <th>
+                            Identifikacinis vartotojo numeris
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="data">
+                    @foreach (var item in service.GetItems().Where(x => x.fk_Category_Items == Model.id))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Updated)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Report_likes)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReportAboutComment)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Report_about_offer)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Visited_times)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Received_offers)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fk_Category_Items)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fk_User_Items)
+                            </td>
+                            <td>
+                                <a Namex="@Html.DisplayFor(modelItem => item.Name)"
+                                   Quantity="@Html.DisplayFor(modelItem => item.Quantity)"
+                                   Created="@Html.DisplayFor(modelItem => item.Created)"
+                                   Updated="@Html.DisplayFor(modelItem => item.Updated)"
+                                   Description="@Html.DisplayFor(modelItem => item.Description)"
+                                   Visited_times="@Html.DisplayFor(modelItem => item.Visited_times)"
+                                   Received_offers="@Html.DisplayFor(modelItem => item.Received_offers)"
+                                   Status="@Html.DisplayFor(modelItem => item.Status)"
+                                   fk_User_Items="@Html.DisplayFor(modelItem => item.fk_User_Items)"
+                                   href="#" class="edit" id="@item.Id">Redeguoti</a> |
+                                <a href="#"
+                                   class="delete"
+                                   id="@item.Id">Ištrinti</a> |
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div>
+                <div class="form-group">
+                    <label class="control-label">Pavadinimas</label>
+                    <input id="Namex" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Kiekis</label>
+                    <input id="Quantity" class="form-control" />
+                </div>
+                <div class="form-group none">
+                    <label class="control-label"></label>
+                    <input id="Created" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" />
+                </div>
+                <div class="form-group none">
+                    <label class="control-label"></label>
+                    <input id="Updated" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Aprašymas</label>
+                    <input id="Description" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input id="Report_likes" type="checkbox" /> Pranešti apie susidomėjimą
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input name="gender" id="ReportAboutComment" type="checkbox" /> Pranešti apie Komentarus
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input id="Report_about_offer" type="checkbox" /> Pranešti apie apsiųlymus
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group none">
+                    <label class="control-label"></label>
+                    <input id="Visited_times" class="form-control" value="0" />
+                </div>
+                <div class="form-group none">
+                    <label class="control-label"></label>
+                    <input id="Received_offers" class="form-control" value="0" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Būsena</label>
+                    <select id="Status" class="form-control">
+                        @{
+                            foreach (var data in service.GetStatuses())
+                            {
+                                <option value="@data.Id">@data.Name </option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Vartotojas</label>
+                    <select id="fk_User_Items" class="form-control">
+                        @{
+                            foreach (var data in service.GetUsers())
+                            {
+                                <option value="@data.id">@data.Name + @data.LastName + @data.UserName </option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group" id="update">
+                    <input type="submit" id="asd" value="Įterpti" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    <script src="~/js/jquery-3.3.1.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('body').delegate('.delete', 'click', function () {
+                var id = $(this).attr("id");
+                $.ajax({
+                    url: "/Categorys/Remove",
+                    dataType: 'json',
+                    contentType: "application/json",
+                    type: "POST",
+                    data: JSON.stringify(id),
+                    success: function (response) {
+                        $(this).parent().parent().remove();
+                    },
+                    failure: function (response) {
+                        alert("Įvyko kritinė klaida");
+                    },
+                    error: function (response) {
+                        alert("Įvyko klaida");
+                    }
+                });
+                $(this).parent().parent().remove();
+            });
+
+            $('body').delegate('.edit', 'click', function () {
+                var Name = $(this).attr("Namex");
+                var Quantity = $(this).attr("Quantity");
+                var Created = $(this).attr("Created");
+                var Updated = $(this).attr("Updated");
+                var Description = $(this).attr("Description");
+                var Report_likes = $(this).attr("Report_likes");
+                var ReportAboutComment = $(this).attr("ReportAboutComment");
+                var Report_about_offer = $(this).attr("Report_about_offer");
+                var Visited_times = $(this).attr("Visited_times");
+                var Received_offers = $(this).attr("Received_offers");
+                var Status = $(this).attr("Status");
+                var fk_User_Items = $(this).attr("fk_User_Items");
+                //alert(Name);
+                //alert(Quantity);
+                //alert(Created);
+                //alert(Updated);
+                //alert(Description);
+                //alert(Report_likes);
+                //alert(ReportAboutComment);
+                //alert(Report_about_offer);
+                //alert(Visited_times);
+                //alert(Received_offers);
+                //alert(Status);
+                //alert(fk_User_Items);
+                var id = $(this).attr("id");
+                $('#Namex').val(Name);
+                $('#Quantity').val(Quantity);
+                $('#Created').val(Created);
+                $('#Updated').val(Updated);
+                $('#Report_likes').val(Report_likes);
+                $('#ReportAboutComment').val(ReportAboutComment);
+                $('#Report_about_offer').val(Report_about_offer);
+                $('#Visited_times').val(Visited_times);
+                $('#Received_offers').val(Received_offers);
+                $('#Status').val(Status);
+                $('#Description').val(Description);
+                $('#fk_User_Items').val(fk_User_Items);
+                $('#update').html("<input type=\"submit\" namex=\"" + Name + "\" quantity=\"" + Quantity + "\" created = \"" + Created + "\" updated = \"" + Updated + "\"description = \"" + Description + "\" Visited_times = \"" + Visited_times + "\" Received_offers = \"" + Received_offers + "\" Status = \"" + Status + "\" fk_User_Items = \"" + fk_User_Items + "\" name=\"sitebg\" imageid=\"" + id + "\" id=\"EditImage\" value=\"Atnaujinti\" class=\"btn btn-default\" />");
+                $(this).parent().parent().remove();
+            });
+
+            $('#update').on("click", function () {
+                if ($(this).children().attr("id") == "EditImage") {
+                    var Name = $('#Namex').val();
+                    var Quantity = $('#Quantity').val();
+                    var Created = $('#Created').val();
+                    var Updated = $('#Updated').val();
+                    var Report_likes = $('#Report_likes').val();
+                    var ReportAboutComment = $('#ReportAboutComment').val();
+                    var Report_about_offer = $('#Report_about_offer').val();
+                    var Visited_times = $('#Visited_times').val();
+                    var Received_offers = $('#Received_offers').val();
+                    var Status = $('#Status').val();
+                    var Description = $('#Description').val();
+                    var fk_User_Items = $('#fk_User_Items').val();
+                    //alert(Name);
+                    //alert(Quantity);
+                    //alert(Created);
+                    //alert(Updated);
+                    //alert(Description);
+                    //alert(Report_likes);
+                    //alert(ReportAboutComment);
+                    //alert(Report_about_offer);
+                    //alert(Visited_times);
+                    //alert(Received_offers);
+                    //alert(Status);
+                    //alert(fk_User_Items);
+                    var id = $(this).children().attr("imageid");
+                    $('#update').html("<input type=\"submit\" name=\"sitebg\" id=\"imageInsert\" value=\"Pridėti skelbimą\" class=\"btn btn-default\" />");
+                    $('#Namex').val("");
+                    $('#Quantity').val("");
+                    $('#Created').val("");
+                    $('#Updated').val("");
+                    $('#Report_likes').val("");
+                    $('#ReportAboutComment').val("");
+                    $('#Report_about_offer').val(0);
+                    $('#Visited_times').val(0);
+                    $('#Received_offers').val("");
+                    $('#Quantity').val(0);
+                    $('#Status').val("");
+                    $('#fk_User_Items').val("");
+                    var Item =
+                        {
+                            Name: Name,
+                            Quantity: Quantity,
+                            Created: Created,
+                            Updated: Updated,
+                            Description: Description,
+                            Report_likes: true,
+                            ReportAboutComment: true,
+                            Report_about_offer: true,
+                            Visited_times: Visited_times,
+                            Received_offers: Received_offers,
+                            Status: Status,
+                            fk_User_Items: fk_User_Items
+                        }
+
+                    $.ajax({
+                        url: "/Categorys/EditImage",
+                        dataType: 'json',
+                        contentType: "application/json",
+                        type: "POST",
+                        data: JSON.stringify(Item),
+                        success: function (response) {
+                            var data3 = "<tr><td>" + Name + "</td ><td>" + Quantity + "</td><td>" + Created + "</td><td>" + Updated + "</td><td>" + Description + "</td><td><input class=\"check-box\" disabled=\"disabled\" type=\"checkbox\"></td><td><input class=\"check-box\" disabled=\"disabled\" type=\"checkbox\"></td><td><input class=\"check-box\" disabled=\"disabled\" type=\"checkbox\"></td><td>0</td><td>0</td><td>" + Status + "</td><td>0</td><td>" + fk_User_Items + "</td><td><a href=\"#\"  namex=\"" + Name + "\" quantity=\"" + Quantity + "\" created = \"" + Created + "\" updated = \"" + Updated + "\"description = \"" + Description + "\" Visited_times = \"" + Visited_times + "\" Received_offers = \"" + Received_offers + "\" Status = \"" + Status + "\" fk_User_Items = \"" + fk_User_Items + "\"  id=\"" + response + "\" class=\"edit\" >Redeguoti</a> |<a href=\"#\" id=\"" + response + "\" class=\"delete\" >Ištrinti</a></td></tr>";
+                            $('#data').append(data3);
+                        },
+                        failure: function (response) {
+                            alert("Įvyko kritinė klaida");
+                        },
+                        error: function (response) {
+                            alert("Įvyko klaida");
+                        }
+                    });
+                }
+                else {
+                    var Name = $('#Namex').val();
+                    var Quantity = $('#Quantity').val();
+                    var Created = $('#Created').val();
+                    var Updated = $('#Updated').val();
+                    var Description = $('#Description').val();
+                    var Report_likes = $('#Report_likes').val();
+                    var ReportAboutComment = $("input[name='gender']:checked").val()
+                    var Report_about_offer = $('#Report_about_offer').val();
+                    var Visited_times = $('#Visited_times').val();
+                    var Received_offers = $('#Received_offers').val();
+                    var Status = $('#Status').val();
+                    var fk_User_Items = $('#fk_User_Items').val();
+                    //alert(Name);
+                    //alert(Quantity);
+                    //alert(Created);
+                    //alert(Updated);
+                    //alert(Description);
+                    //alert(Report_likes);
+                    //alert(ReportAboutComment);
+                    //alert(Report_about_offer);
+                    //alert(Visited_times);
+                    //alert(Received_offers);
+                    //alert(Status);
+                    //alert(fk_User_Items);
+                    //if (data.length > 0 && data2.length > 0) {
+                    var Item =
+                        {
+                            Name: Name,
+                            Quantity: Quantity,
+                            Created: Created,
+                            Updated: Updated,
+                            Description: Description,
+                            Report_likes: true,
+                            ReportAboutComment: true,
+                            Report_about_offer: true,
+                            Visited_times: Visited_times,
+                            Received_offers: Received_offers,
+                            Status: Status,
+                            fk_User_Items: fk_User_Items
+                        }
+                    $.ajax({
+                        url: "/Categorys/GoodSave",
+                        dataType: 'json',
+                        contentType: "application/json",
+                        type: "POST",
+                        data: JSON.stringify(Item),
+                        success: function (response) {
+                            var data3 = "<tr><td>" + Name + "</td ><td>" + Quantity + "</td><td>" + Created + "</td><td>" + Updated + "</td><td>" + Description + "</td><td><input class=\"check-box\" disabled=\"disabled\" type=\"checkbox\"></td><td><input class=\"check-box\" disabled=\"disabled\" type=\"checkbox\"></td><td><input class=\"check-box\" disabled=\"disabled\" type=\"checkbox\"></td><td>0</td><td>0</td><td>" + Status + "</td><td>0</td><td>" + fk_User_Items + "</td><td><a href=\"#\"  namex=\"" + Name + "\" quantity=\"" + Quantity + "\" created = \"" + Created + "\" updated = \"" + Updated + "\"description = \"" + Description + "\" Visited_times = \"" + Visited_times + "\" Received_offers = \"" + Received_offers + "\" Status = \"" + Status + "\" fk_User_Items = \"" + fk_User_Items + "\"  id=\"" + response + "\" class=\"edit\" >Redeguoti</a> |<a href=\"#\" id=\"" + response + "\" class=\"delete\" >Ištrinti</a></td></tr>";
+                            $('#data').append(data3);
+                            $('#Namex').val("");
+                            $('#Quantity').val("");
+                            $('#Created').val("");
+                            $('#Updated').val("");
+                            $('#Report_likes').val("");
+                            $('#ReportAboutComment').val("");
+                            $('#Report_about_offer').val(0);
+                            $('#Visited_times').val(0);
+                            $('#Received_offers').val("");
+                            $('#Quantity').val(0);
+                            $('#Status').val("");
+                            $('#fk_User_Items').val("");
+                        },
+                        failure: function (response) {
+                            alert("Įvyko kritinė klaida");
+                        },
+                        error: function (response) {
+                            alert("Įvyko klaida");
+                        }
+                    });
+                    //}
+                    //else {
+                    //    alert("užpildytite laukelius");
+                    //}
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

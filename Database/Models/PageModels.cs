@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 
 namespace Database.Models
 {
+
+    //Ataskaitos
+
+
     public class CityList
     {
         public List<Citys> citys { get; set; }
     }
-
 
     public class UserCreate
     {

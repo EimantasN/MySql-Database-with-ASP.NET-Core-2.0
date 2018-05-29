@@ -76,10 +76,10 @@
                     <label asp-for="Status"></label>
                     <select asp-for="Status" class="form-control">
                         @{
-                foreach (var data in service.GetStatuses())
-                {
-                    <option asp-for="Status" value="@data.Id">@data.Name </option>
-    }
+                            foreach (var data in service.GetStatuses())
+                            {
+                                <option asp-for="Status" value="@data.Id">@data.Name </option>
+                            }
                         }
                     </select>
                     <span asp-validation-for="Status" class="text-danger"></span>
@@ -88,10 +88,10 @@
                     <label asp-for="fk_Category_Items"></label>
                     <select asp-for="fk_Category_Items" class="form-control">
                         @{
-                foreach (var data in service.GetCategorys())
-                {
-                    <option asp-for="fk_Category_Items" value="@data.id">@data.Name </option>
-    }
+                            foreach (var data in service.GetCategorys())
+                            {
+                                <option asp-for="fk_Category_Items" value="@data.id">@data.Name </option>
+                            }
                         }
                     </select>
                     <span asp-validation-for="fk_Category_Items" class="text-danger"></span>
@@ -100,10 +100,10 @@
                     <label asp-for="fk_User_Items"></label>
                     <select asp-for="fk_User_Items" class="form-control">
                         @{
-                foreach (var data in service.GetUsers())
-                {
-                    <option asp-for="fk_City_Users" value="@data.id">@data.Name + @data.LastName + @data.UserName </option>
-    }
+                            foreach (var data in service.GetUsers())
+                            {
+                                <option asp-for="fk_City_Users" value="@data.id">@data.Name + @data.LastName + @data.UserName </option>
+                            }
                         }
                     </select>
                     <span asp-validation-for="fk_User_Items" class="text-danger"></span>
@@ -114,11 +114,179 @@
                 </div>
             </form>
         </div>
+
+        <div class="col-md-4">
+            <h4>Paveilėlių sarašas</h4>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Aukštos kokybės img adresas
+                        </th>
+                        <th>
+                            Žemos kokybes img adresas
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="data">
+                    @foreach (var item in service.GetImages().Where(x => x.fk_Item_Images == Model.Id))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Image)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Image_thumbnail)
+                            </td>
+                            <td>
+                                <a data2="@Html.DisplayFor(modelItem => item.Image_thumbnail)" data="@Html.DisplayFor(modelItem => item.Image)" href="#" class="edit" id="@item.id">Edit</a> |
+                                <a href="#" class="delete" id="@item.id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div>
+                <div class="form-group">
+                    <label class="control-label">Aukštos kokybės img adresas</label>
+                    <input id="Image" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Žemos kokybes img adresas	</label>
+                    <input id="Image_thumbnail" class="form-control" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group none">
+                    <label class="control-label"></label>
+                    <input id="fk_Item_Images" class="form-control" />
+                    <span class="text-danger"></span>
+                </div>
+                <div class="form-group" id="update">
+                    <input type="submit" name="sitebg" id="imageInsert" value="Pridėti paveikslėlį" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
     </div>
 
     <div>
         <a asp-action="Index">Back to List</a>
     </div>
+
+    <script src="~/js/jquery-3.3.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#imageInsert').on("click", function () {
+
+            });
+
+            $('.delete').click(function () {
+                var id = $(this).attr("id");
+                $.ajax({
+                    url: "/items/Remove",
+                    dataType: 'json',
+                    contentType: "application/json",
+                    type: "POST",
+                    data: JSON.stringify(id),
+                    success: function (response) {
+                        $(this).parent().parent().remove();
+                    },
+                    failure: function (response) {
+                        alert("Įvyko kritinė klaida");
+                    },
+                    error: function (response) {
+                        alert("Įvyko klaida");
+                    }
+                });
+                $(this).parent().parent().remove();
+            });
+
+            $('.edit').click(function () {
+                var data = $(this).attr("data");
+                var data2 = $(this).attr("data2");
+                alert(data);
+                alert(data2);
+                var id = $(this).attr("id");
+                $('#Image').val(data);
+                $('#Image_thumbnail').val(data2);
+                $('#update').html("<input type=\"submit\" data2=" + data + " data=" + data2 + " name=\"sitebg\" imageid=\"" + id + "\" id=\"EditImage\" value=\"Atnaujinti\" class=\"btn btn-default\" />");
+                $(this).parent().parent().remove();
+            });
+            $('#update').on("click", function () {
+                if ($(this).children().attr("id") == "EditImage") {
+                    var data = $('#Image').val();
+                    var data2 = $('#Image_thumbnail').val();
+                    alert(data);
+                    alert(data2);
+                    var id = $(this).children().attr("imageid");
+                    $('#update').html("<input type=\"submit\" name=\"sitebg\" id=\"imageInsert\" value=\"Pridėti paveikslėlį\" class=\"btn btn-default\" />");
+                    $('#Image').val("");
+                    $('#Image_thumbnail').val("");
+                    var image =
+                        {
+                            Image: data,
+                            Image_thumbnail: data2,
+                            id: id
+                        }
+
+                    $.ajax({
+                        url: "/items/EditImage",
+                        dataType: 'json',
+                        contentType: "application/json",
+                        type: "POST",
+                        data: JSON.stringify(image),
+                        success: function (response) {
+                            var data3 = "<tr><td >" + data + "</td><td>" + data2 + "</td><td><a data2=\"" + data + "\" data=\"" + data2 + "\" href=\"#\" id=\"" + response + "\" class=\"edit\">Redeguoti </a> |<a href=\"#\" id=" + response + "\" class=\"delete\">Delete</a></td></tr>";
+                            $('#data').append(data3);
+                        },
+                        failure: function (response) {
+                            alert("Įvyko kritinė klaida");
+                        },
+                        error: function (response) {
+                            alert("Įvyko klaida");
+                        }
+                    });
+                }
+                else {
+                    var data = $('#Image').val();
+                    var data2 = $('#Image_thumbnail').val();
+                    if (data.length > 0 && data2.length > 0) {
+                        var image =
+                            {
+                                Image: data,
+                                Image_thumbnail: data2,
+                                id: 1
+                            }
+                        $.ajax({
+                            url: "/items/GoodSave",
+                            dataType: 'json',
+                            contentType: "application/json",
+                            type: "POST",
+                            data: JSON.stringify(image),
+                            success: function (response) {
+                                var data3 = "<tr><td >" + data + "</td><td>" + data2 + "</td><td><a data2=\"" + data + "\" data=\"" + data2 + "\" href=\"#\" id=\"" + response + "\" class=\"edit\">Redeguoti </a> |<a href=\"#\" id=" + response + "\" class=\"delete\">Delete</a></td></tr>";
+                                $('#data').append(data3);
+                                $('#Image').val("");
+                                $('#Image_thumbnail').val("");
+                            },
+                            failure: function (response) {
+                                alert("Įvyko kritinė klaida");
+                            },
+                            error: function (response) {
+                                alert("Įvyko klaida");
+                            }
+                        });
+                    }
+                    else {
+                        alert("užpildytite laukelius");
+                    }
+                 }
+            });
+
+
+        });
+    </script>
 
 </body>
 </html>

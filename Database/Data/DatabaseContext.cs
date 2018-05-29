@@ -23,5 +23,7 @@ namespace Database.Models
         public DbSet<Database.Prices> Prices { get; set; }
 
         public DbSet<Database.Categorys> Categorys { get; set; }
+
+        public DbSet<Database.Images> Images { get; set; }
     }
 }

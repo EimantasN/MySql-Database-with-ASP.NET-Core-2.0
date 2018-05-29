@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
 
     $(document).ready(function () {
-        $('#good').on("click", function () {
-            var UserCreate = { Name: "sfdasfdasg" }
+        $('#imageInsert').on("click", function () {
+            alert("image Insert");
             $.ajax({
                 url: "/Users/GoodSave",
                 dataType: 'json',

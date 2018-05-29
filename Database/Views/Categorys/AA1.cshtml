@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Database.AA1>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AA1</title>
+</head>
+<body>
+    <p>
+        <a asp-action="Index">Atgal</a>
+    </p>
+    <p>
+        <a asp-action="G4" asp-route-From="@DateTime.Now.AddMonths(-10)" asp-route-To="@DateTime.Now">Ataskaitos forma - G4</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Created)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PrekiuSkaicius)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VidutinisPrekiuKiekis)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrekiuSkaicius)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VidutinisPrekiuKiekis)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

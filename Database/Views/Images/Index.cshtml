@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Database.Categorys>
+﻿@model IEnumerable<Database.Images>
 
 <!DOCTYPE html>
 
@@ -11,20 +11,17 @@
     <p>
         <a asp-action="Create">Create New</a>
     </p>
-    <p>
-        <a asp-action="AA1">Ataskaitos forma - AA1</a>
-    </p>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.Image)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Created)
+                    @Html.DisplayNameFor(model => model.Image_thumbnail)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Updated)
+                    @Html.DisplayNameFor(model => model.fk_Item_Images)
                 </th>
                 <th></th>
             </tr>
@@ -34,13 +31,13 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => item.Image)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Created)
+                        @Html.DisplayFor(modelItem => item.Image_thumbnail)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Updated)
+                        @Html.DisplayFor(modelItem => item.fk_Item_Images)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |

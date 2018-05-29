@@ -1,5 +1,5 @@
 ﻿@model Database.Categorys
-
+@inject Database.Context service
 
 
 <!DOCTYPE html>
@@ -11,33 +11,127 @@
 </head>
 <body>
 
-<div>
-    <h4>Categorys</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <h4>Categorys</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Created)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Updated)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Updated)
+            </dd>
+        </dl>
+        <div class="col-md-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Pavavinimas
+                        </th>
+                        <th>
+                            Kiekis
+                        </th>
+                        <th>
+                            Sukurta
+                        </th>
+                        <th>
+                            Atnaujinta
+                        </th>
+                        <th>
+                            Aprašymas
+                        </th>
+                        <th>
+                            Pranešti apie susidomėjimus
+                        </th>
+                        <th>
+                            Pranešti apie komentarus
+                        </th>
+                        <th>
+                            Pranešti apie pasiūlymus
+                        </th>
+                        <th>
+                            Kiek kartų apsilankyta
+                        </th>
+                        <th>
+                            Kiek pasiūlymų sulaukė skelbimas
+                        </th>
+                        <th>
+                            Būsena
+                        </th>
+                        <th>
+                            Identifikacinis numeris
+                        </th>
+                        <th>
+                            Identifikacinis vartotojo numeris
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="data">
+                    @foreach (var item in service.GetItems().Where(x => x.fk_Category_Items == Model.id))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Updated)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Report_likes)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReportAboutComment)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Report_about_offer)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Visited_times)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Received_offers)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fk_Category_Items)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fk_User_Items)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
 </body>
 </html>

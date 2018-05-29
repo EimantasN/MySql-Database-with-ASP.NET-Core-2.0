@@ -1,0 +1,151 @@
+﻿@model IEnumerable<Database.G4>
+@{
+    var group = Model.First().GetGroups(Model.ToList());
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>G3</title>
+</head>
+<body>
+    <p>
+        <a asp-action="Index">Atgal</a>
+    </p>
+    <p>
+        <a asp-action="AA1">Ataskaitos forma - AA1</a>
+    </p>
+
+    <div>
+        <h4 style="text-align:center">Filtavimas</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4 center-block">
+                <div class="form-group">
+                    <label  class="control-label">Data nuo</label>
+                    <input class="form-control" type="date" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Data iki</label>
+                    <input class="form-control" type="date" />
+                    <span  class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CategoryName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CategoryCreated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemsCount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AVGItemsQuantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AVGItemPrice)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int k = 1;
+                bool green = true; }
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                if (green)
+                {
+                    green = false;
+                    <tr style="background:lightgreen">
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).CategoryCreated)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).ItemName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).ItemsCount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).AVGItemsQuantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).AVGItemPrice)
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).CategoryCreated)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).ItemName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).ItemsCount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).AVGItemsQuantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ElementAt(i).AVGItemPrice)
+                        </td>
+                    </tr>
+                }
+                if (i + 1 < Model.Count() && Model.ElementAt(i + 1) != null && Model.ElementAt(i + 1).CategoryName != "")
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            Vidutinė grupės skelbimų kaina
+                        </td>
+                        <td style="background:lightgrey">
+                            @group[k - 1].avg
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    k++;
+                    green = true;
+                }
+            }
+        </tbody>
+    </table>
+</body>
+</html>

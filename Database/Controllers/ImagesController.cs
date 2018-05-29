@@ -10,16 +10,17 @@ using Database.Models;
 
 namespace Database.Controllers
 {
-    public class PricesController : Controller
+    //        public async Task<IActionResult> Edit(int id, [Bind("Id,Image,ImageThumbnail,fk_Item_Images")] Images images)
+    //        
+    public class ImagesController : Controller
     {
         public IActionResult Index()
         {
             Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
-
-            List<Prices> List = new List<Prices>();
-            foreach (var data in _context.GetList(new Prices { }))
+            List<Images> List = new List<Images>();
+            foreach (var data in _context.GetList(new Images { }))
             {
-                List.Add((Prices)data);
+                List.Add((Images)data);
             }
 
             return View(List);
@@ -33,7 +34,7 @@ namespace Database.Controllers
             }
 
             Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
-            var items = _context.Details(id, new Prices { });
+            var items = _context.Details(id, new Images { });
             if (items == null)
             {
                 return NotFound();
@@ -48,26 +49,16 @@ namespace Database.Controllers
         }
 
         [HttpPost]
-        public JsonResult GoodSave(UserCreate model)
-        {
-            //Console.WriteLine(model.user);
-            //Console.WriteLine(model.city);
-            //Console.WriteLine(String.Join(" ", model.FavoriteBands));
-            return Json(new { result = "saved the good way" });
-
-        }
-
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("id,Price,Created,fk_Item_Prices")] Prices prices)
+        public IActionResult Create([Bind("id,Image,Image_thumbnail,fk_Item_Images")] Images images)
         {
             if (ModelState.IsValid)
             {
                 Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
-                _context.Add(prices);
-                return RedirectToAction("Index", "Prices");
+                _context.Add(images);
+                return RedirectToAction("Index", "Images");
             }
-            return View(prices);
+            return View(images);
         }
 
         public IActionResult Edit(int? id)
@@ -78,7 +69,7 @@ namespace Database.Controllers
             }
 
             Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
-            var items = _context.Details(id, new Prices { });
+            var items = _context.Details(id, new Images { });
             if (items == null)
             {
                 return NotFound();
@@ -86,35 +77,39 @@ namespace Database.Controllers
             return View(items);
         }
 
+        // POST: Images/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("id,Price,Created,fk_Item_Prices")] Prices prices)
+        public IActionResult Edit(int id, [Bind("id,Image,Image_thumbnail,fk_Item_Images")] Images images)
         {
-            if (id != prices.id)
+            if (id != images.id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                    Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
-                    var temp = _context.GetPrices().First(x => x.id == id);
-                Prices model = new Prices
+                try
                 {
-                    id = temp.id,
-                    Created = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    Price = prices.Price,
-                    fk_Item_Prices = temp.fk_Item_Prices
-                };
-                    prices.fk_Item_Prices = temp.id;
-                _context.Delete(id, new Prices { });
-                _context.Add(model);
-
-                    //_context.Edit(id, new Prices { });
-                
-                return RedirectToAction("Index", "Prices");
+                    Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
+                    _context.Edit(id, images);
+                }
+                catch
+                {
+                    if (!ImagesExists(images.id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index", "Images");
             }
-            return View(prices);
+            return View(images);
         }
 
         public IActionResult Delete(int? id)
@@ -125,7 +120,7 @@ namespace Database.Controllers
             }
 
             Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
-            var items = _context.Details(id, new Prices { });
+            var items = _context.Details(id, new Images { });
             if (items == null)
             {
                 return NotFound();
@@ -139,16 +134,16 @@ namespace Database.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
-            _context.Delete(id, new Prices { });
-            return RedirectToAction("Index", "Prices");
+            _context.Delete(id, new Images { });
+            return RedirectToAction("Index", "Images");
         }
 
-        private bool PricesExists(int id)
+        private bool ImagesExists(int id)
         {
             try
             {
                 Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
-                var data = _context.Details(id, new Categorys { });
+                var data = _context.Details(id, new Images { });
                 if (data != null)
                     return true;
                 return false;

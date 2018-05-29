@@ -94,6 +94,38 @@
             </dd>
         </dl>
     </div>
+
+    <div class="col-md-4">
+        <h4>Paveilėlių sarašas</h4>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Aukštos kokybės img adresas
+                    </th>
+                    <th>
+                        Žemos kokybes img adresas
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="data">
+                @foreach (var item in service.GetImages().Where(x => x.fk_Item_Images == Model.Id))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Image)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Image_thumbnail)
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
         <a asp-action="Index">Back to List</a>

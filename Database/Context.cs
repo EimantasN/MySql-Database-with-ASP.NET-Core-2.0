@@ -390,9 +390,9 @@ namespace Database
                                 {
                                     obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
                                 }
-                                else if (reader[i].GetType().Name.ToString().ToLower().Contains("Double"))
+                                else if (reader[i].GetType().Name.ToString().Contains("Decimal"))
                                 {
-                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Double.Parse(value));
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Double.Parse(reader[i].ToString()));
                                 }
                                 else
                                     try
@@ -522,6 +522,204 @@ namespace Database
             foreach (var data in GetList(new items { }))
             {
                 List.Add((items)data);
+            }
+            return List;
+        }
+
+        public List<Images> GetImages()
+        {
+            List<Images> List = new List<Images>();
+            foreach (var data in GetList(new Images { }))
+            {
+                List.Add((Images)data);
+            }
+            return List;
+        }
+
+        public List<object> GetListCategorys(object table)
+        {
+            List<object> List = new List<object>();
+            List<string> ColNames = new List<string>();
+
+            dynamic expando = new ExpandoObject();
+
+            object prop = table.GetType().GetProperties();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                foreach (var property in table.GetType().GetProperties())
+                {
+                    ColNames.Add(property.Name);
+                }
+                string commnda = "SELECT categorys.Name, categorys.Created, COUNT(items.id) AS PrekiuSkaicius, AVG(items.Quantity) as VidutinisPrekiuKiekis FROM categorys, items WHERE categorys.id = items.fk_Category_Items AND DAY(categorys.Created) > 10 GROUP BY categorys.id ORDER BY `categorys`.`Created` DESC";
+                MySqlCommand command = new MySqlCommand(commnda, conn);
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+
+                        object data = new object();
+
+                        //Sukuriu dinaminio objekto savybes
+                        foreach (var a in ColNames)
+                        {
+                            AddProperty(expando, a, null);
+                        }
+
+                        //Uzsipildau statinio obekta sukurtais savybemis
+                        var props = table.GetType().GetProperties();
+                        var obj = Activator.CreateInstance(table.GetType());
+                        var values = (IDictionary<string, object>)expando;
+                        foreach (var propxx in props)
+                            propxx.SetValue(obj, values[propxx.Name]);
+
+                        //uzpildau objekta data
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            try
+                            {
+                                string value = reader[i].GetType().Name;
+                                if (reader[i].GetType().Name.Contains("String"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Int"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Int32.Parse(reader[i].ToString()));
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Date"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Decimal"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Double.Parse(reader[i].ToString()));
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Boolean.Parse(reader[i].ToString()));
+                                    }
+                                    catch { obj.GetType().GetProperty(ColNames[i]).SetValue(obj, false); }
+                                }
+                            }
+                            catch
+                            {
+                                try
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, "");
+                                }
+                                catch
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, 0);
+                                }
+                            }
+                        }
+                        List.Add(obj);
+                    }
+                    conn.Close();
+                }
+            }
+            return List;
+        }
+
+        public List<object> G4(object table)
+        {
+            List<object> List = new List<object>();
+            List<string> ColNames = new List<string>();
+
+            dynamic expando = new ExpandoObject();
+
+            object prop = table.GetType().GetProperties();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                foreach (var property in table.GetType().GetProperties())
+                {
+                    ColNames.Add(property.Name);
+                }
+                string commnda = "SELECT categorys.Name, categorys.Created, users.Name as UserName, items.Name as ItemName," +
+                    "COUNT(items.id) AS ItemsCount," +
+                    "AVG(items.Quantity) as AVGItemsQuantity," +
+                    "AVG(prices.Price) as AVGItemPrice" +
+                    " FROM categorys, users, items, prices" +
+                    " WHERE categorys.id = items.fk_Category_Items" +
+                    " AND users.id = items.fk_User_Items" +
+                    " AND prices.fk_Item_Prices = items.id" +
+                    " GROUP By items.id" +
+                    " ORDER BY categorys.Name ASC, items.Name DESC ";
+
+                MySqlCommand command = new MySqlCommand(commnda, conn);
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+
+                        object data = new object();
+
+                        //Sukuriu dinaminio objekto savybes
+                        foreach (var a in ColNames)
+                        {
+                            AddProperty(expando, a, null);
+                        }
+
+                        //Uzsipildau statinio obekta sukurtais savybemis
+                        var props = table.GetType().GetProperties();
+                        var obj = Activator.CreateInstance(table.GetType());
+                        var values = (IDictionary<string, object>)expando;
+                        foreach (var propxx in props)
+                            propxx.SetValue(obj, values[propxx.Name]);
+
+                        //uzpildau objekta data
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            try
+                            {
+                                string value = reader[i].GetType().Name;
+                                if (reader[i].GetType().Name.Contains("String"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Int"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Int32.Parse(reader[i].ToString()));
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Date"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, reader[i].ToString());
+                                }
+                                else if (reader[i].GetType().Name.ToString().Contains("Decimal"))
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Double.Parse(reader[i].ToString()));
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        obj.GetType().GetProperty(ColNames[i]).SetValue(obj, Boolean.Parse(reader[i].ToString()));
+                                    }
+                                    catch { obj.GetType().GetProperty(ColNames[i]).SetValue(obj, false); }
+                                }
+                            }
+                            catch
+                            {
+                                try
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, "");
+                                }
+                                catch
+                                {
+                                    obj.GetType().GetProperty(ColNames[i]).SetValue(obj, 0);
+                                }
+                            }
+                        }
+                        List.Add(obj);
+                    }
+                    conn.Close();
+                }
             }
             return List;
         }

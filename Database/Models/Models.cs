@@ -2,11 +2,112 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 
 namespace Database
 {
+    public class G4
+    {
+        [Display(Name = "Kategorijos pavadinimas")]
+        public string CategoryName { get; set; }
+        [Display(Name = "Kategorijos sukūrimo data")]
+        public string CategoryCreated { get; set; }
+        [Display(Name = "Vartotojo vardas")]
+        public string UserName { get; set; }
+        [Display(Name = "Skelbimo prekės pavadinimas")]
+        public string ItemName { get; set; }
+        [Display(Name = "Skelmimų skaičius kategorijoje")]
+        public int ItemsCount { get; set; }
+        [Display(Name = "Vidutinis prekių kiekis")]
+        public double AVGItemsQuantity { get; set; }
+        [Display(Name = "Vidutinė skelbimo kaina")]
+        public double AVGItemPrice { get; set; }
+
+        public List<Group> GetGroups(List<G4> data)
+        {
+            List<Group> rData = new List<Group>();
+            var sublist = new List<SubItmes>();
+            G4 first = new G4();
+            foreach (G4 model in data)
+            {
+                
+                if (model.CategoryName != "")
+                {
+                    if (rData.Count == 0 && sublist.Count == 0)
+                    {
+                        first = model;
+                    }
+                    else
+                    {
+                        double sum = sublist.Sum(x => x.AVGItemPrice) + first.AVGItemPrice;
+                        double GrangAvg = sum / (sublist.Count + 1);
+                        Group add = new Group
+                        {
+                            g4 = first,
+                            avg = GrangAvg,
+                            subitmes = sublist
+                        };
+                        rData.Add(add);
+
+                        first = model;
+                    }
+                }
+                else
+                {
+                    var sub = new SubItmes
+                    {
+                        UserName = model.UserName,
+                        ItemName = model.ItemName,
+                        ItemsCount = model.ItemsCount,
+                        AVGItemsQuantity = model.AVGItemsQuantity,
+                        AVGItemPrice = model.AVGItemPrice
+                    };
+                    sublist.Add(sub);
+                }
+
+            }
+            return rData;
+        }
+
+        public class Group
+        {
+            public G4 g4 { get; set; }
+            public double avg { get; set;}
+            public List<SubItmes> subitmes { get; set; }
+        }
+
+        public class SubItmes
+        {
+            [Display(Name = "Vartotojo vardas")]
+            public string UserName { get; set; }
+            [Display(Name = "Skelbimo prekės pavadinimas")]
+            public string ItemName { get; set; }
+            [Display(Name = "Skelmimų skaičius kategorijoje")]
+            public int ItemsCount { get; set; }
+            [Display(Name = "Vidutinis prekių kiekis")]
+            public double AVGItemsQuantity { get; set; }
+            [Display(Name = "Vidutinė skelbimo kaina")]
+            public double AVGItemPrice { get; set; }
+        }
+
+
+    }
+
+
+    public class AA1
+    {
+        [Display(Name = "Kategorijos pavadinimas")]
+        public string Name { get; set; }
+        [Display(Name = "Sukūrimo data")]
+        public string Created { get; set; }
+        [Display(Name = "Prekių skaičius kategorijoje")]
+        public int PrekiuSkaicius { get; set; }
+        [Display(Name = "Vidutinis prekių kiekis kategorijoje")]
+        public double VidutinisPrekiuKiekis { get; set; }
+    }
+
     public class Index
     {
         public List<int> aaa { get; set; }
@@ -109,13 +210,63 @@ namespace Database
 
     public class Images
     {
-        public int Id { get; set; }
+        [Display(Name = "Aukštos kokybės img adresas")]
         public string Image { get; set; }
-        public string ImageThumbnail { get; set; }
+        [Display(Name = "Žemos kokybes img adresas")]
+        public string Image_thumbnail { get; set; }
+        [Display(Name = "Indetifikavimo numeris")]
+        public int id { get; set; }
 
         //Keys
+        [Display(Name = "Indetifikavimo skelbime")]
         public int fk_Item_Images { get; set; }
     }
+
+    public class ItemImage
+    {
+        [Display(Name = "Pavavinimas")]
+        public string Name { get; set; }
+        [Display(Name = "Kiekis")]
+        public int Quantity { get; set; }
+        [Display(Name = "Sukurta")]
+        public string Created { get; set; }
+        [Display(Name = "Atnaujinta")]
+        public string Updated { get; set; }
+        [Display(Name = "Aprašymas")]
+        public string Description { get; set; }
+        [Display(Name = "Pranešti apie susidomėjimus")]
+        public bool Report_likes { get; set; }
+        [Display(Name = "Pranešti apie komentarus")]
+        public bool ReportAboutComment { get; set; }
+        [Display(Name = "Pranešti apie pasiūlymus")]
+        public bool Report_about_offer { get; set; }
+        [Display(Name = "Kiek kartų apsilankyta")]
+        public int Visited_times { get; set; }
+        [Display(Name = "Kiek pasiūlymų sulaukė skelbimas")]
+        public int Received_offers { get; set; }
+        //Foreign Key Status
+        [Display(Name = "Būsena")]
+        public int Status { get; set; }
+        [Display(Name = "Identifikacinis numeris")]
+        public int Id { get; set; }
+
+        //Keys
+        [Display(Name = "Identifikacinis kategorijios numeris")]
+        public int fk_Category_Items { get; set; }
+        [Display(Name = "Identifikacinis vartotojo numeris")]
+        public int fk_User_Items { get; set; }
+        [Display(Name = "Aukštos kokybės img adresas")]
+        public string Image { get; set; }
+        [Display(Name = "Žemos kokybes img adresas")]
+        public string Image_thumbnail { get; set; }
+        [Display(Name = "Indetifikavimo numeris")]
+        public int id { get; set; }
+
+        //Keys
+        [Display(Name = "Indetifikavimo skelbime")]
+        public int fk_Item_Images { get; set; }
+    }
+
 
     public class items
     {
