@@ -625,7 +625,7 @@ namespace Database
             return List;
         }
 
-        public List<object> G4(object table)
+        public List<object> G4(object table, string nuo, string iki)
         {
             List<object> List = new List<object>();
             List<string> ColNames = new List<string>();
@@ -649,6 +649,8 @@ namespace Database
                     " WHERE categorys.id = items.fk_Category_Items" +
                     " AND users.id = items.fk_User_Items" +
                     " AND prices.fk_Item_Prices = items.id" +
+                    " AND items.Created >= \""+nuo+"\"" +
+                    " AND items.Created <= \""+iki+"\"" +
                     " GROUP By items.id" +
                     " ORDER BY categorys.Name ASC, items.Name DESC ";
 

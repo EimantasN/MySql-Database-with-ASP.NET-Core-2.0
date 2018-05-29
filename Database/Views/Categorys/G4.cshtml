@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<Database.G4>
 @{
-    var group = Model.First().GetGroups(Model.ToList());
+    var group = new List<Database.G4.Group>();
+    try { group = Model.First().GetGroups(Model.ToList()); }
+    catch { }
 }
 
 <!DOCTYPE html>
@@ -23,15 +25,25 @@
         <hr />
         <div class="row">
             <div class="col-md-4 center-block">
-                <div class="form-group">
-                    <label  class="control-label">Data nuo</label>
-                    <input class="form-control" type="date" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Data iki</label>
-                    <input class="form-control" type="date" />
-                    <span  class="text-danger"></span>
-                </div>
+                <form asp-action="G4"
+                      method="post"
+                      enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label class="control-label">Data nuo</label>
+                        <input name="From" class="form-control" type="date" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Data iki</label>
+                        <input name="To" class="form-control" type="date" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn-success btn">Filtruoti</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

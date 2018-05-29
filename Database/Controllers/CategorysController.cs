@@ -38,12 +38,14 @@ namespace Database.Controllers
             return View(List);
         }
 
-        public IActionResult G4()
+        public IActionResult G4(DateTime From, DateTime To)
         {
+            string nuo = From.ToString("yyyy-MM-dd");
+            string iki = To.ToString("yyyy-MM-dd");
             Context _context = HttpContext.RequestServices.GetService(typeof(Context)) as Context;
             List<G4> List = new List<G4>();
             G4 prev = new G4();
-            foreach (var data in _context.G4(new G4 { }))
+            foreach (var data in _context.G4(new G4 { }, nuo, iki))
             {
                 if (List.Count() != 0)
                 {
